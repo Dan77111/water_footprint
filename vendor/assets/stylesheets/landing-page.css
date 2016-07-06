@@ -121,7 +121,16 @@ font-size: 14px;
 .banner {
     padding: 100px 0;
     color: #f8f8f8;
+    text-align: center;
     background: url(footer.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.info_header {
+    padding: 200px 0;
+    color: #f8f8f8;
+    text-align: center;
+    background: url(info_header.jpg) no-repeat center center;
     background-size: cover;
 }
 

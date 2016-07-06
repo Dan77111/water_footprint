@@ -45,7 +45,7 @@
                     <li>
   <!-- to review -->
                         <% if yield(:title)=="Info" %>
-                          <%=  link_to "Home", root_path %>
+                          <%=  link_to " Home", root_path, class: "topnav-icons fa fa-home" %>
                         <% else %>
                           <%=  link_to "Info", static_pages_info_path %>
                         <% end %>

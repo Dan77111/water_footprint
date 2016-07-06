@@ -8,9 +8,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-message">
-                        <h1>Home Page</h1>
-                        <h3>Water Footprint calculator</h3>
+                        <h1>Water Footprint Calculator</h1>
+                        <h3>Home Page</h3>
                         <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li>
+                              <a href="#" class="btn btn-danger btn-lg btn-xlg"><span class="network-name"><strong>Make the Test Now</strong></span></a>
+                            </li>
+                        </ul>
                         <ul class="list-inline intro-social-buttons">
                             <li>
                                 <a href="http://www.fbk.eu"  target=”_blank” class="btn btn-default btn-lg"><%= image_tag("fbk_logo.png", height:"20") %><span class="network-name">  FBK</span></a>
@@ -36,8 +41,8 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Short description of WF:<br>Virtual Water</h2>
-                    <p class="lead">A special thanks to FBK for creating this website. Visit their <a href="http://www.fbk.eu">website</a> to follow them.</p>
+                    <h2 class="section-heading">What is the Water Footprint?</h2>
+                    <p class="lead">Water Footprint is the measurement of water consumption that includes both direct and indirect usage by a consumer or a producer.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <%= image_tag("content1.png", class:"img-responsive") %>
@@ -58,8 +63,10 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Cotton</h2>
-                    <p class="lead">The cotton problem is very important.</p>
+                    <h2 class="section-heading">How much water do we waste every day?</h2>
+                    <p class="lead">Despite what we might think, direct water usage is far
+                      less than the indirect one; in fact a large quantity of water is used to
+                      produce food and clothing.</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <%= image_tag("content2.png", class:"img-responsive") %>
@@ -80,8 +87,8 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">Green, Blue and<br>Grey Water</h2>
-                    <p class="lead">There are three type of water: green, blue and grey.</p>
+                    <h2 class="section-heading">Do you want to know more<br />about Water Footprint?</h2>
+                    <h3 class="section-heading"><%= link_to "Read more.", static_pages_info_path %></h3>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <%= image_tag("content3.png", class:"img-responsive") %>
@@ -100,15 +107,7 @@
     <div class="banner">
 
         <div class="container">
-				<div class="col-lg-6">
-					<ul class="list-inline banner-social-buttons">
-                        <li>
-                            <a href="#" class="btn btn-default btn-lg"><i class="fa fa-fw"></i> <span class="network-name">Make the Test Now</span></a>
-                        </li>
-                    </ul>
-				</div>
-            </div>
-
+          <a href="#" class="btn btn-danger btn-lg btn-xlg"><span class="network-name"><strong>Make the Test Now</strong></span></a>
         </div>
         <!-- /.container -->
 
