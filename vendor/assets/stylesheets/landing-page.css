@@ -39,7 +39,7 @@ font-size: 14px;
     padding-bottom: 50px;
     text-align: center;
     color: #f8f8f8;
-    background: url(../img/header2.png) no-repeat center center;
+    background: url(header.png) no-repeat center center;
     background-size: cover;
 }
 
@@ -120,7 +120,7 @@ font-size: 14px;
 .banner {
     padding: 100px 0;
     color: #f8f8f8;
-    background: url(../img/back.jpg) no-repeat center center;
+    background: url(footer.jpg) no-repeat center center;
     background-size: cover;
 }
 
