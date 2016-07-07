@@ -3698,12 +3698,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 
-.navbar-nav > li > a > span {
-  color:#777;
-  font-family: Lato;
-  font-weight: 700;
-  font-size: 14px;
-}
+
 
 .nav-pills > li {
   float: left;
@@ -3786,7 +3781,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 50px;
+  min-height: 120px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -3801,6 +3796,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-collapse {
+  padding-top: 70px;
   padding-right: 15px;
   padding-left: 15px;
   overflow-x: visible;
@@ -6228,3 +6224,10 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+.navbar-nav > li > a > span {
+  color:#777;
+  font-family: Lato;
+  font-weight: 700;
+  font-size: 14px;
+}

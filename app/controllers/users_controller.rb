@@ -7,11 +7,23 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
+
+      flash[:validity] = true
       redirect_to '/'
-      flash[:alert] = "You signed up successfully"
+
     else
+      mess = @user.errors.messages
+      flash[:validity] = false
+      flash[:username] = mess[:username][0] if mess[:username]
+      flash[:email] = mess[:email][0] if mess[:email]
+      flash[:password] = mess[:password][0] if mess[:password]
+
+      if !(mess[:username] || mess[:email] || mess[:password])
+        flash[:password_confirm] = "Password and Password Confirmation do not match."
+      end
+
       redirect_to '/signup'
-      flash[:notice] = "Form is invalid"
+      #render :new
     end
   end
 

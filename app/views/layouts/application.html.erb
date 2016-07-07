@@ -44,11 +44,15 @@
                 <ul class="nav navbar-nav navbar-right navbar-left">
                     <li>
   <!-- to review -->
-                        <% if yield(:title)=="Info" %>
-                          <%=  link_to " Home", root_path, class: "topnav-icons fa fa-home" %>
-                        <% else %>
-                          <%=  link_to "Info", static_pages_info_path %>
-                        <% end %>
+                      <% if yield(:title)!="Home" %>
+                        <%#=  link_to "", root_path, class: "topnav-icons fa fa-home" %>
+                        <a href="/" style="color:#000" class="topnav-icons fa fa-home"> <span>Home</span></a>
+                      <% end %>
+                    </li>
+                    <li>
+                      <% if yield(:title)!="Info" %>
+                        <%=  link_to "Info", static_pages_info_path %>
+                      <% end %>
                     </li>
                     <li><a style="color:#777">|</a></li>
 
@@ -87,13 +91,20 @@
                           <a href="http://www.fbk.eu" target="_blank">About</a>
                         </li>
 						            <li class="footer-menu-divider">⋅</li>
+
+                        <% if current_user %>
                         <li>
-                          <a href="#services">Login</a>
+                          <%= link_to "Logout", logout_path %>
+                        </li>
+                        <% else %>
+                        <li>
+                          <%= link_to "Login", login_path %>
                         </li>
 						            <li class="footer-menu-divider">⋅</li>
                         <li>
-                          <a href="#services">Register</a>
+                          <%= link_to "Signup", signup_path %>
                         </li>
+                        <% end %>
                     </ul>
                     <p class="copyright text-muted small">Copyright © Your Company 2016. All Rights Reserved</p>
                 </div>
