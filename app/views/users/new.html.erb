@@ -1,12 +1,53 @@
+<% provide(:title, "Signup") %>
 
-<h1>Signup!</h1>
+<div class="info_header">
 
-<%= form_for :user, url: '/users' do |f| %>
+    <div class="container">
 
-  Name: <%= f.text_field :name %>
-  Email: <%= f.text_field :email %>
-  Password: <%= f.password_field :password %>
-  Password Confirmation: <%= f.password_field :password_confirmation %>
-  <%= f.submit "Submit" %>
+    </div>
+    <!-- /.container -->
 
-<% end %>
+</div>
+<!-- /.banner -->
+
+<div class="jumbotron text-center">
+  <h1>Signup</h1>
+</div>
+
+<div class="container text-center form-horizontal">
+  <%= form_for :user, url: '/users' do |f| %>
+
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_username">Username</label>
+      <%= f.text_field :username, class: 'form-control' %>
+      <% flash.each do |k, v| %>
+        <div id="<%= k %>"><%= v %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_email">Email</label>
+      <%= f.text_field :email, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_password">Password</label>
+      <%= f.password_field :password, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_password_confirmation">Password Confirmation</label>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+    </div>
+  </div>
+
+  <input class="btn btn-success" type="submit" name="commit" value="Submit">
+
+  <% end %>
+
+  <br />
+</div>

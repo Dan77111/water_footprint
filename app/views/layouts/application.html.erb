@@ -50,18 +50,10 @@
                           <%=  link_to "Info", static_pages_info_path %>
                         <% end %>
                     </li>
-                    <li><a style="color:#666">|</a></li>
-                    <!--
-                    <li>
-                        <a href="#">Register</a>
-                    </li>
-                    <li>
-                        <a href="#" style="color:#80BFFF">Login</a>
-                    </li>
-                    -->
-                  <% if current_user %>
+                    <li><a style="color:#777">|</a></li>
 
-                    <li>Signed in as <%= current_user.name %></li>
+                  <% if current_user %>
+                    <li><a style="color:#000" class="topnav-icons fa fa-user">  <span><%= current_user.username %></span></a></li>
                     <li><%= link_to "Logout", '/logout', style: "color:#FF0000" %></li>
                   <% else %>
                     <li><%= link_to 'Signup', '/signup' %></li>
