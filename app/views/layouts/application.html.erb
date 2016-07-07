@@ -50,12 +50,23 @@
                           <%=  link_to "Info", static_pages_info_path %>
                         <% end %>
                     </li>
+                    <li><a style="color:#666">|</a></li>
+                    <!--
                     <li>
                         <a href="#">Register</a>
                     </li>
                     <li>
                         <a href="#" style="color:#80BFFF">Login</a>
                     </li>
+                    -->
+                  <% if current_user %>
+
+                    <li>Signed in as <%= current_user.name %></li>
+                    <li><%= link_to "Logout", '/logout', style: "color:#FF0000" %></li>
+                  <% else %>
+                    <li><%= link_to 'Signup', '/signup' %></li>
+                    <li><%= link_to 'Login', '/login', style: "color:#80BFFF" %></li>
+                  <% end %>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
