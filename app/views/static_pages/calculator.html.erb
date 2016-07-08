@@ -1,40 +1,129 @@
 <% provide(:title, "Calculator") %>
 
-<% options = {"How many kilograms of meat did you eat the last two weeks?" => [0,1,2,3,4,5],
-              "How many clothes did you buy the last two weeks?" => [0,2,4,6,8],
-              "How many pairs of shoes did you buy the last two weeks?" => [0,1,2]}
+<%
+  items = {
+    carbohydrates1: {
+      pasta:  { value:1848*2, question:"How many dishes of pasta did you eat this week? (100g/dish)",
+                slider:{ id:"pasta", max:14 }
+      },
+      bread:  { value:40*14, question:"How many slices of bread did you eat normally every day this week? (30g/slice)",
+                slider:{ id:"bread", max:16 },
+                description:"Wheat consumes about 790.000 billion litres of water annually, which constitutes 12% of the global water use for crop poduction."
+      }
+    },
+    carbohydrates2: {
+      rice: { value:3400/1000*90*2, question:"How many dishes of rice did you eat this week? (90g/dish)",
+              slider:{ id:"rice", max:10 },
+              description:"One kilogram of rice harvested from the field produce 0.67 kg of milled rice."
+      },
+      potatoes: { value:287/1000*170*2, question:"How many potatoes did you eat this week?",
+              slider:{ id:"potatoes", max:14 }
+      }
+    },
+    meat: {
+      beef: { value:4500*2, question:"How many beef steaks did you eat this week? (300g/steak)",
+              slider:{ id:"beef", max:8 }
+              #description:"It takes in average three years to produce 200 kg of beef. During that time, feeding the animals requires about 15300 litres of water."
+      },
+      pork: { value:1440*2, question:"How many pork steaks did you eat this week? (300g/steak)",
+              slider:{ id:"pork", max:8 },
+      },
+      chicken: { value:1170*2, question:"How many portions of chicken did you eat this week? (300g/beastfilet)",
+              slider:{ id:"chicken", max:10 },
+              description:"These quantities are calculated based on the average water cost of feeding the animal and of servicing."
+      }
+    },
+    vegetables: {
+      vegetables: { value:385/1000*150*2, question:"How many portions of vegetables did you eat this week? (150g/portion)",
+              slider:{ id:"vegetables", max:20 },
+              description:"Vegetables' water consumption is far less than meat's one. So eating lots of vegetables reduces your water footprint."
+      }
+    },
+    proteins: {
+      milk: { value:1000/4*2, question:"How many cups of milk did you drink this week? (250ml/cup)",
+              slider:{ id:"milk", max:14 }
+      },
+      eggs: { value:196*2, question:"How many eggs did you eat this week?",
+              slider:{ id:"eggs", max:10 }
+      },
+      cheese: { value:5*2, question:"How many grams of cheese did you eat this week?",
+              slider:{ id:"cheese", max:1000 }
+      }
+    },
+    drinks1: {
+      wine: { value:720, question:"How many bottles of wine did you drink the last two weeks? (750ml/bottle)",
+              slider:{ id:"wine", max:8 }
+      },
+      beer: { value:150, question:"How many bottles of beer did you drink the last two weeks? (500ml/bottle)",
+              slider:{ id:"beer", max:16 }
+      }
+    },
+    drinks2: {
+      tea: { value:30*2, question:"How many cups of tea did you drink this week? (250ml/cup)",
+              slider:{ id:"tea", max:16 }
+      },
+      coffee: { value:140*2, question:"How many cups of coffee did you drink this week? (150ml/cup)",
+              slider:{ id:"coffee", max:30 }
+      },
+      sugar: { value:1781/1000*44*2, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
+              slider:{ id:"sugar", max:50 }
+      }
+    }
+  }
   i = 0
 %>
 
 <script>
 var i=0;
+var lock=false;
 
 $(document).ready(
   function(){
     document.getElementById("box0").style.display="inline";
+
+    <% items.values.each do |section| %>
+      <% section.values.each do |item| %>
+        var slider = new Slider("#<%= item[:slider][:id] %>", {
+            tooltip: 'always'
+        });
+      <% end %>
+    <% end %>
   }
 );
 
 function next(){
+  if (lock==true) {return;}
+  lock = true;
   $("#box"+i).fadeOut(400,"swing",
-                        function(){
-                          i += 1;
-                          $("#box"+i).fadeIn();
-                        });
+                  function(){
+                    i += 1;
+                    $("#box"+i).fadeIn(400, "swing", function(){
+                      lock = false;
+                    });
+                    if (i==1) {
+                      $('#btn_previous').removeClass('disabled');
+                    }
+                  });
 };
 
 function previous(){
+  if (lock==true) {return;}
+  lock = true;
   $("#box"+i).fadeOut(400,"swing",
-                        function(){
-                          i -= 1;
-                          $("#box"+i).fadeIn();
-                        });
+                function(){
+                  i -= 1;
+                  $("#box"+i).fadeIn(400, "swing", function(){
+                    lock = false;
+                  });
+                  if (i==0) {
+                    $('#btn_previous').addClass('disabled');
+                  }
+                });
 };
 </script>
 
 <div class="info_header">
-    <div class="container">
-    </div>
+    <div class="container"></div>
     <!-- /.container -->
 </div>
 <!-- /.banner -->
@@ -43,32 +132,36 @@ function previous(){
   <h1>Calculator</h1>
 </div>
 
+<div class="container text-center">
 
-<% options.each do |k,v| %>
-<div id="<%= "box" + i.to_s %>" class="container text-center form-horizontal" style="display:none;">
-  <h3><%= k %></h3>
+  <% items.each do |section_name, section| %>
+  <div id="<%= "box" + i.to_s %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="display:none;">
 
-  <% v.each do |val| %>
-  <div class="list-group text-left">
-    <a onclick="next();" class="list-group-item col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4"><%= val %></a>
+    <% section.each do |item, values| %>
+    <h3><%= values[:question] %></h3>
+
+    <br />
+    <% slider = values[:slider]
+       max = slider[:max] %>
+    <input  id="<%= slider[:id] %>"
+            type="text"
+            data-slider-ticks="[0, <%= max/2 %>, <%= max %>]"
+            data-slider-min="0"
+            data-slider-max="<%= max %>"
+            data-slider-step="1"
+            data-slider-value="<%= max/2 %>"
+            data-slider-tooltip="show" />
+
+    <% end %>
+
   </div>
+  <% i += 1 %>
   <% end %>
 
-  <% i += 1 %>
-
+  <div class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4">
+    <br />
+    <button id="btn_previous" onclick="previous()" type="button" class="btn btn-primary disabled">Previous</button>
+    <button id="btn_next" onclick="next()" type="button" class="btn btn-primary">Next</button>
+  </div>
 </div>
-<% end %>
-<div id="<%= "box" + i.to_s %>" class="container text-center form-horizontal">
-  <br />
-
-  <input  type="text"
-          data-provide="slider"
-          data-slider-ticks="[1,2,3]"
-          data-slider-min="0"
-          data-slider-max="4"
-          data-slider-step="1"
-          data-slider-value="4"
-          data-slider-tooltip="show" />
-</div>
-
 <br />
