@@ -7,4 +7,7 @@ class StaticPagesController < ApplicationController
 
   def info
   end
+
+  def calculator
+  end
 end

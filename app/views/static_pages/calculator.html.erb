@@ -1,0 +1,74 @@
+<% provide(:title, "Calculator") %>
+
+<% options = {"How many kilograms of meat did you eat the last two weeks?" => [0,1,2,3,4,5],
+              "How many clothes did you buy the last two weeks?" => [0,2,4,6,8],
+              "How many pairs of shoes did you buy the last two weeks?" => [0,1,2]}
+  i = 0
+%>
+
+<script>
+var i=0;
+
+$(document).ready(
+  function(){
+    document.getElementById("box0").style.display="inline";
+  }
+);
+
+function next(){
+  $("#box"+i).fadeOut(400,"swing",
+                        function(){
+                          i += 1;
+                          $("#box"+i).fadeIn();
+                        });
+};
+
+function previous(){
+  $("#box"+i).fadeOut(400,"swing",
+                        function(){
+                          i -= 1;
+                          $("#box"+i).fadeIn();
+                        });
+};
+</script>
+
+<div class="info_header">
+    <div class="container">
+    </div>
+    <!-- /.container -->
+</div>
+<!-- /.banner -->
+
+<div class="jumbotron text-center">
+  <h1>Calculator</h1>
+</div>
+
+
+<% options.each do |k,v| %>
+<div id="<%= "box" + i.to_s %>" class="container text-center form-horizontal" style="display:none;">
+  <h3><%= k %></h3>
+
+  <% v.each do |val| %>
+  <div class="list-group text-left">
+    <a onclick="next();" class="list-group-item col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4"><%= val %></a>
+  </div>
+  <% end %>
+
+  <% i += 1 %>
+
+</div>
+<% end %>
+<div id="<%= "box" + i.to_s %>" class="container text-center form-horizontal">
+  <br />
+
+  <input  type="text"
+          data-provide="slider"
+          data-slider-ticks="[1,2,3]"
+          data-slider-min="0"
+          data-slider-max="4"
+          data-slider-step="1"
+          data-slider-value="4"
+          data-slider-tooltip="show" />
+</div>
+
+<br />

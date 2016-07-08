@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -51,7 +52,7 @@
                     </li>
                     <li>
                       <% if yield(:title)!="Info" %>
-                        <%=  link_to "Info", static_pages_info_path %>
+                        <%=  link_to "Info", info_path %>
                       <% end %>
                     </li>
                     <li><a style="color:#777">|</a></li>
@@ -84,7 +85,7 @@
                         </li>
                         <li class="footer-menu-divider">⋅</li>
                         <li>
-                          <%= link_to "Info", static_pages_info_path %>
+                          <%= link_to "Info", info_path %>
                         </li>
                         <li class="footer-menu-divider">⋅</li>
                         <li>
