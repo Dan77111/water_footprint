@@ -76,6 +76,7 @@
 <script>
 data = {}
 var i=0;
+var numItems = <%= items.values.size %>;
 var lock=false;
 
 $(document).ready(
@@ -99,12 +100,16 @@ function next(){
                   function(){
                     i += 1;
                     save_data();
-                    $("#box"+i).fadeIn(400, "swing", function(){
-                      lock = false;
-                    });
                     if (i==1) {
                       $('#btn_previous').removeClass('disabled');
                     }
+                    if (i==numItems) {
+                      document.getElementById("buttons").style.display = "none";
+                    }
+
+                    $("#box"+i).fadeIn(400, "swing", function(){
+                      lock = false;
+                    });
                   });
 };
 
@@ -115,12 +120,13 @@ function previous(){
                 function(){
                   i -= 1;
                   save_data();
-                  $("#box"+i).fadeIn(400, "swing", function(){
-                    lock = false;
-                  });
                   if (i==0) {
                     $('#btn_previous').addClass('disabled');
                   }
+
+                  $("#box"+i).fadeIn(400, "swing", function(){
+                    lock = false;
+                  });
                 });
 };
 
@@ -133,7 +139,7 @@ function save_data(){
     case <%= i %>:
       <% section.each do |item, values| %>
       <% id = values[:slider][:id] %>
-      data["<%= id %>"] = document.getElementById("<%= id %>").value*<%= values[:value] %>;
+        data["<%= id %>"] = document.getElementById("<%= id %>").value*<%= values[:value] %>;
       <% end %>
     <% i -= 1 %>
     <% end %>
@@ -160,35 +166,40 @@ function save_data(){
 
   <% i = 0 %>
   <% items.each do |section_name, section| %>
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="display:none;">
+  <div  class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue;">
 
-    <% section.each do |item, values| %>
-    <h3><%= values[:question] %></h3>
+    <div id="box<%= i %>" style="display:none;">
+      <% section.each do |item, values| %>
+      <h3><%= values[:question] %></h3>
 
-    <br />
-    <% slider = values[:slider]
-       max = slider[:max] %>
-    <input  id="<%= slider[:id] %>"
-            type="text"
-            data-slider-ticks="[0, <%= max/2 %>, <%= max %>]"
-            data-slider-min="0"
-            data-slider-max="<%= max %>"
-            data-slider-step="1"
-            data-slider-value="<%= max/2 %>"
-            data-slider-tooltip="show" />
+      <br />
+      <% slider = values[:slider]
+         max = slider[:max] %>
+      <input  id="<%= slider[:id] %>"
+              type="text"
+              data-slider-ticks="[0, <%= max/2 %>, <%= max %>]"
+              data-slider-min="0"
+              data-slider-max="<%= max %>"
+              data-slider-step="1"
+              data-slider-value="<%= max/2 %>"
+              data-slider-tooltip="show" />
+      <% end %>
 
-    <% end %>
-
+      <p> <br /> </p> <!-- space before buttons -->
+    </div>
   </div>
   <% i += 1 %>
   <% end %>
 
-  <div class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
+    <h3>Test Finished</h3>
+    <p>Your water footprint is <span id="tot"></span> for the last two weeks.<br />See <a href="#">here</a> your results.</p>
+  </div>
+  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:#eee;">
     <br />
     <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
     <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
+    <p> <br /> </p> <!-- space after buttons -->
   </div>
 </div>
-
-<h3 id="tot">0</h3>
 <br />
