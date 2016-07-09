@@ -91,7 +91,7 @@ $(document).ready(
   }
 );
 
-function next(){
+function next(save_data){
   if (lock==true) {return;}
   lock = true;
   $("#box"+i).fadeOut(400,"swing",
@@ -106,7 +106,7 @@ function next(){
                   });
 };
 
-function previous(){
+function previous(save_data){
   if (lock==true) {return;}
   lock = true;
   $("#box"+i).fadeOut(400,"swing",
@@ -120,6 +120,39 @@ function previous(){
                   }
                 });
 };
+
+var data = {};
+
+function save_data(){
+  switch(i)
+  {
+    case 7:
+      data["tea"] = document.getElementById("tea").value*document.getElementById("tea").coeff;
+      data["coffee"] = document.getElementById("coffee").value;
+      data["sugar"] = document.getElementById("sugar").value;
+    case 6:
+      data["wine"] = document.getElementById("wine").value;
+      data["beer"] = document.getElementById("beer").value;
+    case 5:
+      data["milk"] = document.getElementById("milk").value;
+      data["eggs"] = document.getElementById("eggs").value;
+      data["cheese"] = document.getElementById("cheese").value;
+    case 4:
+      data["vegetables"] = document.getElementById("vegetables").value;
+    case 3:
+      data["beef"] = document.getElementById("beef").value;
+      data["pork"] = document.getElementById("pork").value;
+      data["chicken"] = document.getElementById("chicken").value;
+    case 2:
+      data["rice"] = document.getElementById("rice").value;
+      data["potatoes"] = document.getElementById("potatoes").value;
+    case 1:
+      data["pasta"] = document.getElementById("pasta").value;
+      data["bread"] = document.getElementById("bread").value;
+  }
+  data["pasta"] = 10;
+  document.getElementById("tot").innerHTML = "ciao";
+}
 </script>
 
 <div class="info_header">
@@ -150,7 +183,8 @@ function previous(){
             data-slider-max="<%= max %>"
             data-slider-step="1"
             data-slider-value="<%= max/2 %>"
-            data-slider-tooltip="show" />
+            data-slider-tooltip="show"
+            coeff="<%= values[:value] %>" />
 
     <% end %>
 
@@ -160,8 +194,10 @@ function previous(){
 
   <div class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4">
     <br />
-    <button id="btn_previous" onclick="previous()" type="button" class="btn btn-primary disabled">Previous</button>
-    <button id="btn_next" onclick="next()" type="button" class="btn btn-primary">Next</button>
+    <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
+    <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
   </div>
 </div>
+
+<h3 id="tot">0</h3>
 <br />
