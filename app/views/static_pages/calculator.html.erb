@@ -3,6 +3,7 @@
 <%
   items = {
     carbohydrates1: {
+###-----------errori value
       pasta:  { value:1848*2, question:"How many dishes of pasta did you eat this week? (100g/dish)",
                 slider:{ id:"pasta", max:14 }
       },
@@ -12,11 +13,11 @@
       }
     },
     carbohydrates2: {
-      rice: { value:3400/1000*90*2, question:"How many dishes of rice did you eat this week? (90g/dish)",
+      rice: { value:3400.0/1000*90*2, question:"How many dishes of rice did you eat this week? (90g/dish)",
               slider:{ id:"rice", max:10 },
               description:"One kilogram of rice harvested from the field produce 0.67 kg of milled rice."
       },
-      potatoes: { value:287/1000*170*2, question:"How many potatoes did you eat this week?",
+      potatoes: { value:287.0/1000*170*2, question:"How many potatoes did you eat this week?",
               slider:{ id:"potatoes", max:14 }
       }
     },
@@ -34,7 +35,7 @@
       }
     },
     vegetables: {
-      vegetables: { value:385/1000*150*2, question:"How many portions of vegetables did you eat this week? (150g/portion)",
+      vegetables: { value:(385.0/1000)*150*2, question:"How many portions of vegetables did you eat this week? (150g/portion)",
               slider:{ id:"vegetables", max:20 },
               description:"Vegetables' water consumption is far less than meat's one. So eating lots of vegetables reduces your water footprint."
       }
@@ -65,15 +66,15 @@
       coffee: { value:140*2, question:"How many cups of coffee did you drink this week? (150ml/cup)",
               slider:{ id:"coffee", max:30 }
       },
-      sugar: { value:1781/1000*44*2, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
+      sugar: { value:1781.0/1000*44*2, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
               slider:{ id:"sugar", max:50 }
       }
     }
   }
-  i = 0
 %>
 
 <script>
+data = {}
 var i=0;
 var lock=false;
 
@@ -91,12 +92,13 @@ $(document).ready(
   }
 );
 
-function next(save_data){
+function next(){
   if (lock==true) {return;}
   lock = true;
   $("#box"+i).fadeOut(400,"swing",
                   function(){
                     i += 1;
+                    save_data();
                     $("#box"+i).fadeIn(400, "swing", function(){
                       lock = false;
                     });
@@ -106,12 +108,13 @@ function next(save_data){
                   });
 };
 
-function previous(save_data){
+function previous(){
   if (lock==true) {return;}
   lock = true;
   $("#box"+i).fadeOut(400,"swing",
                 function(){
                   i -= 1;
+                  save_data();
                   $("#box"+i).fadeIn(400, "swing", function(){
                     lock = false;
                   });
@@ -121,37 +124,25 @@ function previous(save_data){
                 });
 };
 
-var data = {};
-
 function save_data(){
+  data = {};
   switch(i)
   {
-    case 7:
-      data["tea"] = document.getElementById("tea").value*document.getElementById("tea").coeff;
-      data["coffee"] = document.getElementById("coffee").value;
-      data["sugar"] = document.getElementById("sugar").value;
-    case 6:
-      data["wine"] = document.getElementById("wine").value;
-      data["beer"] = document.getElementById("beer").value;
-    case 5:
-      data["milk"] = document.getElementById("milk").value;
-      data["eggs"] = document.getElementById("eggs").value;
-      data["cheese"] = document.getElementById("cheese").value;
-    case 4:
-      data["vegetables"] = document.getElementById("vegetables").value;
-    case 3:
-      data["beef"] = document.getElementById("beef").value;
-      data["pork"] = document.getElementById("pork").value;
-      data["chicken"] = document.getElementById("chicken").value;
-    case 2:
-      data["rice"] = document.getElementById("rice").value;
-      data["potatoes"] = document.getElementById("potatoes").value;
-    case 1:
-      data["pasta"] = document.getElementById("pasta").value;
-      data["bread"] = document.getElementById("bread").value;
+    <% i = 7 %>
+    <% items.values.reverse.each do |section| %>
+    case <%= i %>:
+      <% section.each do |item, values| %>
+      <% id = values[:slider][:id] %>
+      data["<%= id %>"] = document.getElementById("<%= id %>").value*<%= values[:value] %>;
+      <% end %>
+    <% i -= 1 %>
+    <% end %>
   }
-  data["pasta"] = 10;
-  document.getElementById("tot").innerHTML = "ciao";
+  tot = 0
+  for (var key in data){
+    tot += data[key];
+  }
+  document.getElementById("tot").innerHTML = tot;
 }
 </script>
 
@@ -167,8 +158,9 @@ function save_data(){
 
 <div class="container text-center">
 
+  <% i = 0 %>
   <% items.each do |section_name, section| %>
-  <div id="<%= "box" + i.to_s %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="display:none;">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="display:none;">
 
     <% section.each do |item, values| %>
     <h3><%= values[:question] %></h3>
@@ -183,8 +175,7 @@ function save_data(){
             data-slider-max="<%= max %>"
             data-slider-step="1"
             data-slider-value="<%= max/2 %>"
-            data-slider-tooltip="show"
-            coeff="<%= values[:value] %>" />
+            data-slider-tooltip="show" />
 
     <% end %>
 
