@@ -4,69 +4,69 @@
   items = {
     carbohydrates1: {
 ###-----------errori value
-      pasta:  { value:1848*2, question:"How many dishes of pasta did you eat this week? (100g/dish)",
+      pasta:  { value:1848, question:"How many dishes of pasta did you eat this week? (100g/dish)",
                 slider:{ id:"pasta", max:14 }
       },
-      bread:  { value:40*14, question:"How many slices of bread did you eat normally every day this week? (30g/slice)",
+      bread:  { value:40*7, question:"How many slices of bread did you eat normally every day this week? (30g/slice)",
                 slider:{ id:"bread", max:16 },
                 description:"Wheat consumes about 790.000 billion litres of water annually, which constitutes 12% of the global water use for crop poduction."
       }
     },
     carbohydrates2: {
-      rice: { value:3400.0/1000*90*2, question:"How many dishes of rice did you eat this week? (90g/dish)",
+      rice: { value:3400.0/1000*90, question:"How many dishes of rice did you eat this week? (90g/dish)",
               slider:{ id:"rice", max:10 },
               description:"One kilogram of rice harvested from the field produce 0.67 kg of milled rice."
       },
-      potatoes: { value:287.0/1000*170*2, question:"How many potatoes did you eat this week?",
+      potatoes: { value:287.0/1000*170, question:"How many potatoes did you eat this week?",
               slider:{ id:"potatoes", max:14 }
       }
     },
     meat: {
-      beef: { value:4500*2, question:"How many beef steaks did you eat this week? (300g/steak)",
+      beef: { value:4500, question:"How many beef steaks did you eat this week? (300g/steak)",
               slider:{ id:"beef", max:8 }
               #description:"It takes in average three years to produce 200 kg of beef. During that time, feeding the animals requires about 15300 litres of water."
       },
-      pork: { value:1440*2, question:"How many pork steaks did you eat this week? (300g/steak)",
+      pork: { value:1440, question:"How many pork steaks did you eat this week? (300g/steak)",
               slider:{ id:"pork", max:8 },
       },
-      chicken: { value:1170*2, question:"How many portions of chicken did you eat this week? (300g/beastfilet)",
+      chicken: { value:1170, question:"How many portions of chicken did you eat this week? (300g/beastfilet)",
               slider:{ id:"chicken", max:10 },
               description:"These quantities are calculated based on the average water cost of feeding the animal and of servicing."
       }
     },
     vegetables: {
-      vegetables: { value:(385.0/1000)*150*2, question:"How many portions of vegetables did you eat this week? (150g/portion)",
+      vegetables: { value:(385.0/1000)*150, question:"How many portions of vegetables did you eat this week? (150g/portion)",
               slider:{ id:"vegetables", max:20 },
               description:"Vegetables' water consumption is far less than meat's one. So eating lots of vegetables reduces your water footprint."
       }
     },
     proteins: {
-      milk: { value:1000/4*2, question:"How many cups of milk did you drink this week? (250ml/cup)",
+      milk: { value:1000/4, question:"How many cups of milk did you drink this week? (250ml/cup)",
               slider:{ id:"milk", max:14 }
       },
-      eggs: { value:196*2, question:"How many eggs did you eat this week?",
+      eggs: { value:196, question:"How many eggs did you eat this week?",
               slider:{ id:"eggs", max:10 }
       },
-      cheese: { value:5*2, question:"How many grams of cheese did you eat this week?",
+      cheese: { value:5, question:"How many grams of cheese did you eat this week?",
               slider:{ id:"cheese", max:1000 }
       }
     },
     drinks1: {
-      wine: { value:720, question:"How many bottles of wine did you drink the last two weeks? (750ml/bottle)",
+      wine: { value:720/2, question:"How many bottles of wine did you drink the last two weeks? (750ml/bottle)",
               slider:{ id:"wine", max:8 }
       },
-      beer: { value:150, question:"How many bottles of beer did you drink the last two weeks? (500ml/bottle)",
+      beer: { value:150/2, question:"How many bottles of beer did you drink the last two weeks? (500ml/bottle)",
               slider:{ id:"beer", max:16 }
       }
     },
     drinks2: {
-      tea: { value:30*2, question:"How many cups of tea did you drink this week? (250ml/cup)",
+      tea: { value:30, question:"How many cups of tea did you drink this week? (250ml/cup)",
               slider:{ id:"tea", max:16 }
       },
-      coffee: { value:140*2, question:"How many cups of coffee did you drink this week? (150ml/cup)",
+      coffee: { value:140, question:"How many cups of coffee did you drink this week? (150ml/cup)",
               slider:{ id:"coffee", max:30 }
       },
-      sugar: { value:1781.0/1000*44*2, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
+      sugar: { value:1781.0/1000*44, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
               slider:{ id:"sugar", max:50 }
       }
     }
@@ -144,11 +144,17 @@ function save_data(){
     <% i -= 1 %>
     <% end %>
   }
-  tot = 0
+  var tot = 0
   for (var key in data){
     tot += data[key];
   }
-  document.getElementById("tot").innerHTML = tot;
+  tot = parseInt(tot, 10).toString();
+  var final_tot = "";
+  for (j=tot.length-3; j>0; j-=3){
+    final_tot = "." + tot.slice(j, j+3) + final_tot;
+  }
+  final_tot = tot.slice(0, j+3) + final_tot;
+  document.getElementById("tot").innerHTML = final_tot;
 }
 </script>
 
@@ -183,23 +189,37 @@ function save_data(){
               data-slider-step="1"
               data-slider-value="<%= max/2 %>"
               data-slider-tooltip="show" />
-      <% end %>
 
-      <p> <br /> </p> <!-- space before buttons -->
+        <p> <br /> </p> <!-- space before button/question -->
+        <% if values[:description] %>
+        <div class="alert alert-info fade in">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+          <strong>Tips!</strong> <%= values[:description] %>
+        </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
   <% i += 1 %>
   <% end %>
 
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
-    <h3>Test Finished</h3>
-    <p>Your water footprint is <span id="tot"></span> for the last two weeks.<br />See <a href="#">here</a> your results.</p>
-  </div>
   <div id="buttons" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:#eee;">
     <br />
     <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
     <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
     <p> <br /> </p> <!-- space after buttons -->
+  </div>
+
+  <!-- test finished -->
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
+    <h3>Test Finished</h3>
+    <p>Your water footprint is <span id="tot"></span> for the last week.<br />
+      See <a href="#">here</a> your results.<br />
+      <div class="alert alert-info fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+        <strong>Tips!</strong> The USA has an average water footprint of 47.562 l/cap/day.
+      </div>
+    </p>
   </div>
 </div>
 <br />
