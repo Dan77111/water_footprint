@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :results
 
   has_secure_password
 

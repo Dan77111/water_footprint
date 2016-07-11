@@ -74,7 +74,8 @@
 %>
 
 <script>
-data = {}
+var data = {}
+var tot=0;
 var i=0;
 var numItems = <%= items.values.size %>;
 var lock=false;
@@ -105,6 +106,10 @@ function next(){
                     }
                     if (i==numItems) {
                       document.getElementById("buttons").style.display = "none";
+
+                      <% if current_user %>
+                      $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
+                      <% end %>
                     }
 
                     $("#box"+i).fadeIn(400, "swing", function(){
@@ -144,16 +149,16 @@ function save_data(){
     <% i -= 1 %>
     <% end %>
   }
-  var tot = 0
+  tot = 0
   for (var key in data){
     tot += data[key];
   }
-  tot = parseInt(tot, 10).toString();
+  var tot_s = parseInt(tot, 10).toString();
   var final_tot = "";
-  for (j=tot.length-3; j>0; j-=3){
-    final_tot = "." + tot.slice(j, j+3) + final_tot;
+  for (j=tot_s.length-3; j>0; j-=3){
+    final_tot = "." + tot_s.slice(j, j+3) + final_tot;
   }
-  final_tot = tot.slice(0, j+3) + final_tot;
+  final_tot = tot_s.slice(0, j+3) + final_tot;
   document.getElementById("tot").innerHTML = final_tot;
 }
 </script>
@@ -170,13 +175,13 @@ function save_data(){
 
 <div class="container text-center">
 
-  <% i = 0 %>
+  <% i = 1 %>
   <% items.each do |section_name, section| %>
   <div  class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue;">
 
-    <div id="box<%= i %>" style="display:none;">
+    <div id="box<%= i %>" style="display:none;" class="iquestion-inner_border">
       <% section.each do |item, values| %>
-      <h3><%= values[:question] %></h3>
+      <h3 class="lead" color="red"><%= values[:question] %></h3>
 
       <br />
       <% slider = values[:slider]
@@ -192,8 +197,7 @@ function save_data(){
 
         <p> <br /> </p> <!-- space before button/question -->
         <% if values[:description] %>
-        <div class="alert alert-info fade in">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+        <div class="alert alert-info">
           <strong>Tips!</strong> <%= values[:description] %>
         </div>
         <% end %>
@@ -210,16 +214,22 @@ function save_data(){
     <p> <br /> </p> <!-- space after buttons -->
   </div>
 
+
   <!-- test finished -->
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
     <h3>Test Finished</h3>
     <p>Your water footprint is <span id="tot"></span> for the last week.<br />
-      See <a href="#">here</a> your results.<br />
-      <div class="alert alert-info fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
-        <strong>Tips!</strong> The USA has an average water footprint of 47.562 l/cap/day.
+
+      <% if current_user %>
+        Click <%= link_to "here", user_results_path(current_user.id) %> to see your history.<br />
+      <% end %>
+
+      <div class="alert alert-info">
+        <strong>Tips!</strong> The USA has an average water footprint of 47.562 l/cap/week.
       </div>
     </p>
   </div>
+
+
 </div>
 <br />
