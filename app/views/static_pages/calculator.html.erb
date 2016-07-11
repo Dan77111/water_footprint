@@ -76,14 +76,12 @@
 <script>
 var data = {}
 var tot=0;
-var i=0;
+var i=-1;
 var numItems = <%= items.values.size %>;
 var lock=false;
 
 $(document).ready(
   function(){
-    document.getElementById("box0").style.display="inline";
-
     <% items.values.each do |section| %>
       <% section.values.each do |item| %>
         var slider = new Slider("#<%= item[:slider][:id] %>", {
@@ -93,6 +91,13 @@ $(document).ready(
     <% end %>
   }
 );
+
+function buttonsOn(){
+  document.getElementById("buttons").style.display = "inline";
+}
+function buttonsOff(){
+  document.getElementById("buttons").style.display = "none";
+}
 
 function next(){
   if (lock==true) {return;}
@@ -105,7 +110,7 @@ function next(){
                       $('#btn_previous').removeClass('disabled');
                     }
                     if (i==numItems) {
-                      document.getElementById("buttons").style.display = "none";
+                      buttonsOff();
 
                       <% if current_user %>
                       $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
@@ -169,19 +174,26 @@ function save_data(){
 </div>
 <!-- /.banner -->
 
-<div class="jumbotron text-center">
-  <h1>Calculator</h1>
-</div>
+<br /> <!-- space between img and calculator -->
 
 <div class="container text-center">
 
+  <div id="box-1" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4 waves-test-start">
+    <div class="logo-test-start col-lg-4 col-lg-offset-4"></div>
+    <p style="padding-top:150px; color:#007acc;">
+      Do the test now and compare your result with global average.<br />
+      <%= link_to "Login", login_path %> or <%= link_to "Signup", signup_path %> to save your tests.
+    </p>
+    <btn onclick="next();buttonsOn();" class="btn btn-info btn-lg btn-xlg" style="border-radius: 40px; position:absolute; bottom:0; margin-bottom:50px;">Get Started</btn>
+
+  </div>
+
   <% i = 0 %>
   <% items.each do |section_name, section| %>
-  <div  class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue;">
-
-    <div id="box<%= i %>" style="display:none;" class="iquestion-inner_border">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
+    <div>
       <% section.each do |item, values| %>
-      <h3 class="lead" color="red"><%= values[:question] %></h3>
+      <h3 class="lead"><%= values[:question] %></h3>
 
       <br />
       <% slider = values[:slider]
@@ -198,7 +210,13 @@ function save_data(){
         <p> <br /> </p> <!-- space before button/question -->
         <% if values[:description] %>
         <div class="alert alert-info">
-          <strong>Tips!</strong> <%= values[:description] %>
+          <ul class="fa-ul">
+            <li>
+              <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
+              <strong class="sr-only">Tips!</strong>
+              <%= values[:description] %>
+            </li>
+          </ul>
         </div>
         <% end %>
       <% end %>
@@ -207,7 +225,7 @@ function save_data(){
   <% i += 1 %>
   <% end %>
 
-  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:#eee;">
+  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:#eee; display:none;">
     <br />
     <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
     <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
