@@ -7,10 +7,14 @@ class ResultsController < ApplicationController
     @results = User.find(params[:user_id]).results
 
     @average = 0
+    @max = 0
+    @min = @results.first.score unless @results.count == 0
     @results.each do |r|
       @average += r.score
+      @max = r.score if @max < r.score
+      @min = r.score if @min > r.score
     end
-    @average /= @results.count
+    @average /= @results.count unless @results.count == 0
   end
 
   # POST /results

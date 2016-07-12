@@ -164,13 +164,7 @@ function save_data(){
   for (var key in data){
     tot += data[key];
   }
-  var tot_s = parseInt(tot, 10).toString();
-  var final_tot = "";
-  for (j=tot_s.length-3; j>0; j-=3){
-    final_tot = "." + tot_s.slice(j, j+3) + final_tot;
-  }
-  final_tot = tot_s.slice(0, j+3) + final_tot;
-  document.getElementById("tot").innerHTML = final_tot;
+  document.getElementById("tot").innerHTML = withDot(tot);
 }
 </script>
 
