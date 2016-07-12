@@ -8,6 +8,8 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
 
+    <%= yield(:script) %>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -59,7 +61,7 @@
 
           <ul class="nav navbar-nav navbar-right">
           <% if current_user %>
-            <li class="active"><a href="<%= user_results_path(current_user.id) %>"><span style="color:#00802b;"><span class="fa fa-user"></span> <%= current_user.username %></span></a></li>
+            <li><a href="<%= user_results_path(current_user.id) %>"><span style="color:#00802b;"><span class="fa fa-user"></span> <%= current_user.username %></span></a></li>
             <li><a href="<%= logout_path %>"><span  style="color:#cc0000;"><span class="fa fa-sign-out"></span> Logout</span></a></li>
           <% else %>
             <li class="<%= "active" if current_page?(signup_path) %>"><a href="<%= signup_path %>">Signup</a></li>

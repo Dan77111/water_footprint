@@ -5,6 +5,12 @@ class ResultsController < ApplicationController
   # GET /results.json
   def index
     @results = User.find(params[:user_id]).results
+
+    @average = 0
+    @results.each do |r|
+      @average += r.score
+    end
+    @average /= @results.count
   end
 
   # POST /results

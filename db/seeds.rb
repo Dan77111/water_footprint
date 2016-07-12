@@ -7,9 +7,11 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 10.times do |t|
-  User.new(username: "user"+t.to_s, email: "user"+t.to_s+"@gmail.com", password: t.to_s*10, password_confirmation: t.to_s*10)
+  User.create(username: "user"+t.to_s, email: "user"+t.to_s+"@gmail.com", password: t.to_s*10, password_confirmation: t.to_s*10)
 end
 
 User.all.each do |u|
-  u.id
+  10.times do |t|
+    Result.create(score: t*10000, user_id: u.id)
+  end
 end

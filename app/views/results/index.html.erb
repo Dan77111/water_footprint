@@ -1,3 +1,5 @@
+<% provide(:script, stylesheet_link_tag("w3.css")) %>
+
 <% provide(:title, "History") %>
 
 <div class="info_header">
@@ -26,15 +28,59 @@
       </tr>
     </thead>
     <tbody>
-      <% @results.each do |r| %>
+      <% i=0; @results.each do |r| i+=1 %>
       <tr>
-        <th scope="row"><%= r.id %></th>
+        <th scope="row"><%= i %></th>
         <td><%= r.created_at.strftime("%d %b. %Y") %></td>
         <td><%= r.score %></td>
       </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-lg-10 col-lg-offset-1">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="w3-card-2 w3-hover-shadow">
+
+      <header class="w3-container w3-light-grey">
+        <h3><%= current_user.username %></h3>
+      </header>
+
+      <div class="w3-container">
+        <br />
+        <% if @results.last.score > @average %>
+          <img src="<%= image_path("fa-line-chart-red.png") %>" alt="Graph" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <p>In comparison to your average, you did worst in your last test.</p><br>
+        <% elsif @results.last.score < @average %>
+          <img src="<%= image_path("fa-line-chart-green.png") %>" alt="Graph" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <p>In comparison to your average, you did better in your last test.</p><br>
+        <% else %>
+          <img src="<%= image_path("fa-line-chart.png") %>" alt="Graph" class="w3-left w3-circle w3-margin-right" style="width:60px">
+          <p>Your last test's score was like your average one.</p><br>
+        <% end %>
+      </div>
+    </div>
+  <br />
+  </div>
+
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="w3-card-2 w3-hover-shadow">
+
+      <header class="w3-container w3-light-grey">
+        <h3>Average</h3>
+      </header>
+
+      <div class="w3-container">
+        <br />
+        <img src="<%= image_path("fa-line-chart.png") %>" alt="Graph" class="w3-left w3-circle w3-margin-right" style="width:60px">
+        <p>Your average is:<br /><%= @average %></p><br>
+      </div>
+
+    </div>
+  <br />
+  </div>
+
 </div>
 
 
