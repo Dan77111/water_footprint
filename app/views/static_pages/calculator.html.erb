@@ -92,48 +92,54 @@ $(document).ready(
   }
 );
 
-function buttonsOn(){
-  document.getElementById("buttons").style.display = "inline";
-}
 function buttonsOff(){
   document.getElementById("buttons").style.display = "none";
 }
 
 function next(){
   if (lock==true) {return;}
-  lock = true;
+  lock=true;
+
+  $("#buttons").fadeOut();
   $("#box"+i).fadeOut(400,"swing",
                   function(){
                     i += 1;
                     save_data();
-                    if (i==1) {
+
+                    if (i==1) { // test iniziato
                       $('#btn_previous').removeClass('disabled');
                     }
-                    if (i==numItems) {
+                    if (i==numItems) { // test finito
                       buttonsOff();
 
                       <% if current_user %>
                       $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
                       <% end %>
+                    } else {
+                      $("#buttons").fadeIn();
                     }
 
                     $("#box"+i).fadeIn(400, "swing", function(){
                       lock = false;
                     });
                   });
-};
+}
 
 function previous(){
   if (lock==true) {return;}
   lock = true;
-  $("#box"+i).fadeOut(400,"swing",
+
+  $("#box"+i).fadeOut();
+  $("#buttons").fadeOut(400,"swing",
                 function(){
                   i -= 1;
                   save_data();
-                  if (i==0) {
+
+                  if (i==0) { // primo box
                     $('#btn_previous').addClass('disabled');
                   }
 
+                  $("#buttons").fadeIn();
                   $("#box"+i).fadeIn(400, "swing", function(){
                     lock = false;
                   });
@@ -184,7 +190,7 @@ function save_data(){
       Do the test now and compare your result with global average.<br />
       <%= link_to "Login", login_path %> or <%= link_to "Signup", signup_path %> to save your tests.
     </p>
-    <btn onclick="next();buttonsOn();" class="btn btn-info btn-lg btn-xlg" style="border-radius: 40px; position:absolute; bottom:0; margin-bottom:50px;">Get Started</btn>
+    <btn onclick="next()" class="btn btn-info btn-lg btn-xlg" style="border-radius: 40px; position:absolute; bottom:0; margin-bottom:50px;">Get Started</btn>
 
   </div>
 
@@ -237,14 +243,15 @@ function save_data(){
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
     <h3>Test Finished</h3>
     <p>Your water footprint is <span id="tot"></span> for the last week.<br />
-
-      <% if current_user %>
-        Click <%= link_to "here", user_results_path(current_user.id) %> to see your history.<br />
-      <% end %>
-
       <div class="alert alert-info">
         <strong>Tips!</strong> The USA has an average water footprint of 47.562 l/cap/week.
       </div>
+      <br />
+      <% if current_user %>
+        <a href="<%= user_results_path(current_user.id) %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">History</button></a>
+      <% end %>
+      <br />
+      <br />
     </p>
   </div>
 

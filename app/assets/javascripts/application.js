@@ -14,9 +14,10 @@
 
 
 //= require bootstrap-sprockets
-//= require jquery-1.11.0
+// require jquery-1.11.0
 //= require bootstrap
 //= require bootstrap-slider
+//= require cookieconsent.min.js
 
 //= require jquery_ujs
 //= require turbolinks

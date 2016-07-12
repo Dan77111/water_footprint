@@ -2131,7 +2131,7 @@ th {
 }
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-  background-color: #f5f5f5;
+  background-color: #ccc;
 }
 table col[class*="col-"] {
   position: static;
@@ -3781,7 +3781,6 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar {
   position: relative;
-  min-height: 120px;
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
@@ -3896,7 +3895,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   float: left;
   height: 50px;
   padding: 15px 15px;
-  font-size: 18px;
+  font-size: 25px;
   line-height: 20px;
 }
 .navbar-brand:hover,
@@ -4116,11 +4115,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   border-color: #e7e7e7;
 }
 .navbar-default .navbar-brand {
-  color: #777;
+  color: #3784c8;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
-  color: #5e5e5e;
+  color: #2a6496;
   background-color: transparent;
 }
 .navbar-default .navbar-text {
@@ -6225,10 +6224,3 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
-
-.navbar-nav > li > a > span {
-  color:#777;
-  font-family: Lato;
-  font-weight: 700;
-  font-size: 14px;
-}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -14,6 +14,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="shortcut icon" href="<%= image_url('goccia.ico') %>" />
     <title><%= yield(:title) %> - Water Footprint</title>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,59 +24,52 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script type="text/javascript">
+      window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+    </script>
+
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-        <div class="container topnav">
-            <div class="navbar-brand topnav"><%= link_to image_tag("logo.png", height: '100'), root_path %></div>
-
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right navbar-left">
-                    <li>
-  <!-- to review -->
-                      <% if yield(:title)!="Home" %>
-                        <%#=  link_to "", root_path, class: "topnav-icons fa fa-home" %>
-                        <a href="<%= root_path %>" class="topnav-icons fa fa-home"> <span>Home</span></a>
-                      <% end %>
-                    </li>
-                    <li>
-                      <% if yield(:title)!="Info" %>
-                        <%=  link_to "Info", info_path %>
-                      <% end %>
-                    </li>
-                    <li><a style="color:#777">|</a></li>
-
-                  <% if current_user %>
-                    <li>
-                      <a href="<%= user_results_path(current_user.id) %>" class="topnav-icons fa fa-user">
-                        <span><%= current_user.username %></span></a>
-                    </li>
-                    <li><%= link_to "Logout", '/logout', style: "color:#FF0000" %></li>
-                  <% else %>
-                    <li><%= link_to 'Signup', '/signup' %></li>
-                    <li><%= link_to 'Login', '/login', style: "color:#80BFFF" %></li>
-                  <% end %>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+  <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="<%= root_path %>">Water Footprint</a>
         </div>
-        <!-- /.container -->
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="<%= "active" if current_page?(root_path) %>"><a href="<%= root_path %>">Home</a></li>
+            <li class="<%= "active" if current_page?(info_path) %>"><a href="<%= info_path %>">Info</a></li>
+            <li><a href="http://www.fbk.eu" target="_blank">About</a></li>
+            <% if current_user %>
+            <li class="<%= "active" if current_page? user_results_path(current_user.id) %>">
+              <a href="<%= user_results_path(current_user.id) %>">History</a>
+            </li>
+            <% end %>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+          <% if current_user %>
+            <li class="active"><a href="<%= user_results_path(current_user.id) %>"><span style="color:#00802b;"><span class="fa fa-user"></span> <%= current_user.username %></span></a></li>
+            <li><a href="<%= logout_path %>"><span  style="color:#cc0000;"><span class="fa fa-sign-out"></span> Logout</span></a></li>
+          <% else %>
+            <li class="<%= "active" if current_page?(signup_path) %>"><a href="<%= signup_path %>">Signup</a></li>
+            <li class="<%= "active" if current_page?(login_path) %>"><a href="<%= login_path %>">Login</a></li>
+          <% end %>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
     </nav>
+
 
 
     <%= yield %>
