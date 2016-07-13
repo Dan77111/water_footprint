@@ -69,6 +69,17 @@
       sugar: { value:1781.0/1000*44, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
               slider:{ id:"sugar", max:50 }
       }
+    },
+    clothes: {
+      shoes: { value:8000/8, question:"How many pairs of leather shoes did you buy the last two months?",
+              slider:{ id:"shoes", max:6 }
+      },
+      shirts: { value:2900/4, question:"How many t-shirts or shirts did you buy this month?",
+              slider:{ id:"shirts", max:6 }
+      },
+      jeans: { value:8000/4, question:"How many pairs of jeans did you buy this month?",
+              slider:{ id:"jeans", max:4 }
+      }
     }
   }
 %>
@@ -162,7 +173,7 @@ function save_data(){
   data = {};
   switch(i)
   {
-    <% i = 7 %>
+    <% i = items.count %>
     <% items.values.reverse.each do |section| %>
     case <%= i %>:
       <% section.each do |item, values| %>
@@ -186,25 +197,40 @@ function save_data(){
 </div>
 <!-- /.banner -->
 
-<br /> <!-- space between img and calculator -->
+<div style="min-height:10px; background-color:#eee;">
+</div>
+<br />
 
 <div class="container text-center">
 
-  <div id="box-1" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4 waves-test-start">
+  <!-- starter box -->
+  <div id="box-1" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3 waves-test-start">
     <div class="logo-test-start col-lg-4 col-lg-offset-4"></div>
-    <p style="padding-top:150px; color:#007acc;">
-      Do the test now and compare your result with global average.<br />
-      <%= link_to "Login", login_path %> or <%= link_to "Signup", signup_path %> to save your tests.
+    <p style="padding-top:240px; color:#007acc;">
+      Do the test now and compare your result with global average.
     </p>
-    <btn onclick="next()" class="btn btn-info btn-lg btn-xlg" style="border-radius: 40px; position:absolute; bottom:0; margin-bottom:50px;">Get Started</btn>
 
+
+    <div class="alert alert-info col-xs-10 col-xs-offset-1">
+      <ul class="fa-ul">
+        <li>
+          <i class="fa fa-warning fa-lg fa-li" aria-hidden="true"></i>
+          This test calculates only the water footprint related to food and clothing. 
+        </li>
+      </ul>
+    </div>
+
+    <div style="padding-left: 25%;">
+      <btn onclick="next()" class="btn btn-info btn-lg btn-xlg" style="border-radius: 40px;">Get Started</btn>
+    </div>
   </div>
 
   <% i = 0 %>
   <% items.each do |section_name, section| %>
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
     <div>
       <% section.each do |item, values| %>
+
       <h3 class="lead"><%= values[:question] %></h3>
 
       <br />
@@ -225,7 +251,6 @@ function save_data(){
           <ul class="fa-ul">
             <li>
               <i class="fa fa-info-circle fa-lg fa-li" aria-hidden="true"></i>
-              <strong class="sr-only">Tips!</strong>
               <%= values[:description] %>
             </li>
           </ul>
@@ -237,7 +262,7 @@ function save_data(){
   <% i += 1 %>
   <% end %>
 
-  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:#eee; display:none;">
+  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:#eee; display:none;">
     <br />
     <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
     <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
@@ -246,7 +271,7 @@ function save_data(){
 
 
   <!-- test finished -->
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
     <h3>Test Finished</h3>
     <p>Your water footprint was <span id="tot"></span> l/day during your last week.<br />
       <div class="alert alert-info">
