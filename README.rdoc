@@ -1,11 +1,9 @@
 goals:
-  1) head icon
-  2) average water footprint test finished
   3) test finished -> log in here to save your result
   4) statistic page of user
-  5) if user logged in, save his result directly
   6) give some advice to user after test
   7) images in calculator
   8) Info page
   9) section with description and images
   10) graphics in statistic page
+  11) Paasword confirmation div alert

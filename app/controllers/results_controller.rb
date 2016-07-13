@@ -23,6 +23,9 @@ class ResultsController < ApplicationController
 
     @result = Result.new(result_params)
 
+    puts "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+    puts result_params
+
     respond_to do |format|
       if @result.save
         format.json { render :show, status: :created, location: @result }
