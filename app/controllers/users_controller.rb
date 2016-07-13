@@ -13,7 +13,14 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
 
       flash[:validity] = true
-      redirect_to '/'
+
+      if cookies[:result]
+        Result.create(user_id: @user.id, score: cookies[:result])
+        cookies.delete :result
+        redirect_to user_results_path(@user.id)
+      else
+        redirect_to root_path
+      end
 
     else
       mess = @user.errors.messages

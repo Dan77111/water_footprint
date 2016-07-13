@@ -80,6 +80,16 @@ var i=-1;
 var numItems = <%= items.values.size %>;
 var lock=false;
 
+function withDot(n){
+  var n_s = parseInt(n, 10).toString();
+  var n_tot = "";
+  for (j=n_s.length-3; j>0; j-=3){
+    n_tot = "." + n_s.slice(j, j+3) + n_tot;
+  }
+  n_tot = n_s.slice(0, j+3) + n_tot;
+  return n_tot;
+}
+
 $(document).ready(
   function(){
     <% items.values.each do |section| %>
@@ -114,12 +124,14 @@ function next(){
 
                       <% if current_user %>
                       $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
+                      <% else %>
+                      $.post("/temp?static_page[result]="+tot)
                       <% end %>
                     } else {
                       $("#buttons").fadeIn();
                     }
 
-                    $("#box"+i).fadeIn(400, "swing", function(){
+                    $("#box"+i).fadeIn(400, "swing", function(){ // box finale
                       lock = false;
                     });
                   });
@@ -164,7 +176,7 @@ function save_data(){
   for (var key in data){
     tot += data[key];
   }
-  document.getElementById("tot").innerHTML = withDot(tot);
+  document.getElementById("tot").innerHTML = withDot(tot/7);
 }
 </script>
 
@@ -236,13 +248,20 @@ function save_data(){
   <!-- test finished -->
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-4 col-sm-offset-3 col-lg-offset-4" style="background-color:lightblue; display:none;">
     <h3>Test Finished</h3>
-    <p>Your water footprint is <span id="tot"></span> for the last week.<br />
+    <p>Your water footprint was <span id="tot"></span> l/day during your last week.<br />
       <div class="alert alert-info">
-        <strong>Tips!</strong> The USA has an average water footprint of 47.562 l/cap/week.
+        <strong>Tips!</strong> The USA has an average water footprint of 6.795 l/cap/day.
       </div>
-      <br />
       <% if current_user %>
+        <hr />
         <a href="<%= user_results_path(current_user.id) %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">History</button></a>
+      <% else %>
+        <hr />
+        Signup or login to save your result
+        <br />
+        <br />
+        <a href="<%= signup_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Signup</button></a>
+        <a href="<%= login_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Login</button></a>
       <% end %>
       <br />
       <br />

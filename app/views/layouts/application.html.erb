@@ -30,18 +30,6 @@
       window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
     </script>
 
-    <script type="text/javascript">
-      function withDot(n){
-        var n_s = parseInt(n, 10).toString();
-        var n_tot = "";
-        for (j=n_s.length-3; j>0; j-=3){
-          n_tot = "." + n_s.slice(j, j+3) + n_tot;
-        }
-        n_tot = n_s.slice(0, j+3) + n_tot;
-        return n_tot;
-      }
-    </script>
-
 </head>
 
 <body>
@@ -64,6 +52,9 @@
             <li class="<%= "active" if current_page?(root_path) %>"><a href="<%= root_path %>">Home</a></li>
             <li class="<%= "active" if current_page?(info_path) %>"><a href="<%= info_path %>">Info</a></li>
             <li><a href="http://www.fbk.eu" target="_blank">About</a></li>
+            <li class="<%= "active" if current_page? calculator_path %>">
+              <a href="<%= calculator_path %>">Test</a>
+            </li>
             <% if current_user %>
             <li class="<%= "active" if current_page? user_results_path(current_user.id) %>">
               <a href="<%= user_results_path(current_user.id) %>">History</a>

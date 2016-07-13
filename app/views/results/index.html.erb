@@ -25,7 +25,8 @@
         <tr>
           <th>#</th>
           <th>Date</th>
-          <th>Score</th>
+          <th>Avg. l/day</th>
+          <th>l/week</th>
         </tr>
       </thead>
       <tbody>
@@ -33,6 +34,7 @@
         <tr>
           <th scope="row"><%= i %></th>
           <td><%= r.created_at.strftime("%d %b. %Y") %></td>
+          <td><%= r.score/7 %></td>
           <td><%= r.score %></td>
         </tr>
         <% end %>

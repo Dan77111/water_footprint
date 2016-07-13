@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   get '/info' => 'static_pages#info'
   get '/calculator' => 'static_pages#calculator'
+  post '/temp' => 'static_pages#temp_result'
 
   get '/signup' => 'users#new'
   post '/users' => 'users#create'
