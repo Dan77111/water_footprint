@@ -1,5 +1,36 @@
 <% provide(:title, "Home") %>
 
+<% if flash[:confirm] %>
+<script>
+$(document).ready(
+  function(){
+    $("#confirmationModal").modal();
+  }
+);
+</script>
+<% end %>
+
+<% if flash[:confirm] %>
+<div id="confirmationModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Email Confirmation</h4>
+      </div>
+      <div class="modal-body">
+        <p><%= flash[:confirm] %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<% end %>
+
 <!-- Header -->
     <!-- <a name="about"></a> -->
     <div class="intro-header">

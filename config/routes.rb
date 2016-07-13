@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   resources :users, only: [:get, :post] do
     get '/results', to: 'results#index'
     post '/results', to: 'results#create'
+
+    member do
+      get :confirm_email
+    end
   end
 
 
