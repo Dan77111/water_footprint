@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   before_create :confirmation_token
+  before_create :deletion_token
   has_many :results
 
   has_secure_password
@@ -20,6 +21,12 @@ class User < ActiveRecord::Base
     def confirmation_token
       if self.confirm_token.blank?
           self.confirm_token = SecureRandom.urlsafe_base64.to_s
+      end
+    end
+
+    def deletion_token
+      if self.delete_token.blank?
+          self.delete_token = SecureRandom.urlsafe_base64.to_s
       end
     end
 end

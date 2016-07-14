@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160713140029) do
     t.datetime "updated_at",                      null: false
     t.boolean  "email_confirmed", default: false
     t.string   "confirm_token"
+    t.string   "delete_token"
   end
 
 end

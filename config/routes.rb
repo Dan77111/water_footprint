@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
     member do
       get :confirm_email
+      get :delete_email
     end
   end
 

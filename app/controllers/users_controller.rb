@@ -41,11 +41,30 @@ class UsersController < ApplicationController
     user = User.find_by_confirm_token(params[:id])
     if user
       user.email_activate
-      flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
-      Please sign in to continue."
+      flash[:confirm] = "Welcome to Water Footprint Calculator! Your email has been confirmed."
+      session[:user_id] = user.id # create session on confirmation
       redirect_to root_url
     else
-      flash[:error] = "Sorry. User does not exist"
+      flash[:confirm] = "Sorry. User does not exist"
+      redirect_to root_url
+    end
+  end
+
+  def delete_email
+    user = User.find_by_delete_token(params[:id])
+    if user
+      if user.email_confirmed
+        flash[:confirm] = "User cannot be deleted."
+        redirect_to root_url
+        return
+      end
+      
+      user.results.destroy_all
+      user.destroy
+      flash[:confirm] = "User has been successfully deleted."
+      redirect_to root_url
+    else
+      flash[:confirm] = "Sorry. User does not exist"
       redirect_to root_url
     end
   end
