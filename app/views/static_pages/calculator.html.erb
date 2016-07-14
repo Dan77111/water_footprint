@@ -105,13 +105,25 @@ $(document).ready(
   function(){
     <% items.values.each do |section| %>
       <% section.values.each do |item| %>
-        var slider = new Slider("#<%= item[:slider][:id] %>", {
-            tooltip: 'always'
-        });
+        $("#<%= item[:slider][:id] %>").slider({tooltip:'always'});
       <% end %>
     <% end %>
   }
 );
+
+function relayout(){
+  switch(i){
+  <% j=0
+      items.values.each do |section| %>
+    case <%= j %>:
+    <% section.values.each do |item| %>
+      $("#<%= item[:slider][:id] %>").slider("relayout");
+    <% end %>
+    break;
+  <% j+=1 %>
+  <% end %>
+  }
+}
 
 function buttonsOff(){
   document.getElementById("buttons").style.display = "none";
@@ -145,6 +157,8 @@ function next(){
                     $("#box"+i).fadeIn(400, "swing", function(){ // box finale
                       lock = false;
                     });
+
+                    relayout();
                   });
 }
 
@@ -165,7 +179,7 @@ function previous(){
                   $("#buttons").fadeIn();
                   $("#box"+i).fadeIn(400, "swing", function(){
                     lock = false;
-                  });
+                  });                  
                 });
 };
 
@@ -215,7 +229,7 @@ function save_data(){
       <ul class="fa-ul">
         <li>
           <i class="fa fa-warning fa-lg fa-li" aria-hidden="true"></i>
-          This test calculates only the water footprint related to food and clothing. 
+          This test calculates only the water footprint related to food and clothing.
         </li>
       </ul>
     </div>
