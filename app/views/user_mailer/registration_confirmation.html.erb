@@ -13,7 +13,7 @@
                       <tbody><tr>
                         <td align="center" valign="middle">
                           <a href="<%= root_path %>" target="_blank">
-                            <img src="<%= image_tag("email_confirm_logo.png") %>" width="102" height="34" alt="WFC" class="CToWUd">
+                            <img src="<%= 'https://github.com/DavideLusuardi/water_footprint/blob/emailConfirm/app/assets/images/email_confirm_logo.png?raw=true' %>" width="280" alt="WFC" class="CToWUd">
                           </a>
                         </td>
                       </tr>
@@ -25,7 +25,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" height="1" width="100%">
                       <tbody><tr>
                         <td align="center" valign="middle" style="background-color:#eeeeee" width="249"></td>
-                        <td align="center" valign="middle" style="background-color:#6441a5" width="102"></td>
+                        <td align="center" valign="middle" style="background-color:#0033cc" width="300"></td>
                         <td align="center" valign="middle" style="background-color:#eeeeee" width="249"></td>
                       </tr>
                     </tbody></table>
@@ -44,7 +44,7 @@
 			Thanks for registering! To confirm your registration click
 			</h3>
            <div>
-            <a href="<%= confirm_email_user_url(@user.confirm_token) %>" style="border-radius:20px; background-color:#6441a5;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
+            <a href="<%= confirm_email_user_url(@user.confirm_token) %>" style="border-radius:20px; background-color:#0033cc;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
               Here
             </a>
 			<br/>

@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      UserMailer.registration_confirmation(@user).deliver
+      UserMailer.registration_confirmation(@user).deliver_now
 
       if cookies[:result]
         Result.create(user_id: @user.id, score: cookies[:result])
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         redirect_to root_url
         return
       end
-      
+
       user.results.destroy_all
       user.destroy
       flash[:confirm] = "User has been successfully deleted."
