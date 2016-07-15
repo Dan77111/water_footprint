@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
       if user && user.authenticate(params[:password])
         if cookies[:result]
           Result.create(user_id: user.id, score: cookies[:result])
-          cookies.delete :result
         end
 
         if user.email_confirmed
@@ -19,6 +18,7 @@ class SessionsController < ApplicationController
 
           if cookies[:result]
             redirect_to user_results_path(user.id)
+            cookies.delete :result
           else
             redirect_to root_path
           end

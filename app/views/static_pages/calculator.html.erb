@@ -18,7 +18,8 @@
               description:"One kilogram of rice harvested from the field produce 0.67 kg of milled rice."
       },
       potatoes: { value:287.0/1000*170, question:"How many potatoes did you eat this week?",
-              slider:{ id:"potatoes", max:14 }
+              slider:{ id:"potatoes", max:14 },
+              img: "section_carbohydrates.png"
       }
     },
     meat: {
@@ -31,7 +32,8 @@
       },
       chicken: { value:1170, question:"How many portions of chicken did you eat this week? (300g/beastfilet)",
               slider:{ id:"chicken", max:10 },
-              description:"These quantities are calculated based on the average water cost of feeding the animal and of servicing."
+              description:"These quantities are calculated based on the average water cost of feeding the animal and of servicing.",
+              img: "section_meat.png"
       }
     },
     vegetables: {
@@ -48,7 +50,8 @@
               slider:{ id:"eggs", max:10 }
       },
       cheese: { value:5, question:"How many grams of cheese did you eat this week?",
-              slider:{ id:"cheese", max:1000 }
+              slider:{ id:"cheese", max:1000 },
+              img: "section_proteins.png"
       }
     },
     drinks1: {
@@ -67,7 +70,8 @@
               slider:{ id:"coffee", max:30 }
       },
       sugar: { value:1781.0/1000*44, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
-              slider:{ id:"sugar", max:50 }
+              slider:{ id:"sugar", max:50 },
+              img: "section_drinks.png"
       }
     },
     clothes: {
@@ -88,7 +92,20 @@
 var data = {}
 var tot=0;
 var i=-1;
-var numItems = <%= items.values.size %>;
+//var img_index=-1;
+var img_ii = [
+  <% x=0; a=[] %>
+  <% items.values.each do |section| %>
+    <% if section.values.last[:img] %>
+      <% x+=1 %>
+      <% a.push(x) %>
+    <% end %>
+    <% x+=1 %>
+  <% end %>
+  <%= a.join(", ") %>
+];
+
+var numItems = <%= x %>;
 var lock=false;
 
 function withDot(n){
@@ -121,6 +138,7 @@ function relayout(){
     <% end %>
     break;
   <% j+=1 %>
+  <% j+=1 if section.values.last[:img] %>
   <% end %>
   }
 }
@@ -137,6 +155,7 @@ function next(){
   $("#box"+i).fadeOut(400,"swing",
                   function(){
                     i += 1;
+
                     save_data();
 
                     if (i==1) { // test iniziato
@@ -179,7 +198,7 @@ function previous(){
                   $("#buttons").fadeIn();
                   $("#box"+i).fadeIn(400, "swing", function(){
                     lock = false;
-                  });                  
+                  });
                 });
 };
 
@@ -187,8 +206,9 @@ function save_data(){
   data = {};
   switch(i)
   {
-    <% i = items.count %>
+    <% i = x %>
     <% items.values.reverse.each do |section| %>
+    <% i-=1 if section.values.last[:img] %>
     case <%= i %>:
       <% section.each do |item, values| %>
       <% id = values[:slider][:id] %>
@@ -274,6 +294,14 @@ function save_data(){
     </div>
   </div>
   <% i += 1 %>
+
+  <% if section.values.last[:img] %>
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
+    <%= image_tag(section.values.last[:img], style:"max-width:100%; max-height:100%;") %>
+  </div>
+  <% i+=1 %>
+  <% end %>
+
   <% end %>
 
   <div id="buttons" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:#eee; display:none;">
