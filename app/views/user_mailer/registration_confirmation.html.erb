@@ -41,11 +41,11 @@
         <td align="center" valign="middle">
           <div><h3>
             Hi <%= @user.username %>, <br />
-			Thanks for registering! To confirm your registration click
+			Thanks for registering! To confirm your registration click the button below
 			</h3>
            <div>
-            <a href="<%= confirm_email_user_url(@user.confirm_token) %>" style="border-radius:20px; background-color:#0033cc;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
-              Here
+            <a href="<%= confirm_email_user_url(@user.confirm_token) %>" style="border-radius:20px; background-color:#428bca;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
+              Confirm email address
             </a>
 			<br/>
             <br>
