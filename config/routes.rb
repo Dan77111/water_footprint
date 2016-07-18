@@ -1,25 +1,34 @@
 Rails.application.routes.draw do
+  devise_scope :user do
+    get 'login' => 'devise/sessions#new', :as => :login
+    post 'login' => 'devise/sessions#create'
+    delete 'logout' => 'devise/sessions#destroy', :as => :logout
+
+    get 'signup' => 'devise/registrations#new', :as => :signup
+    post 'signup', { controller: 'registrations', action: "create" }
+  end
+
   root 'static_pages#home'
 
   get '/info' => 'static_pages#info'
   get '/calculator' => 'static_pages#calculator'
   post '/temp' => 'static_pages#temp_result'
 
-  get '/signup' => 'users#new'
-  post '/users' => 'users#create'
+  # get '/signup' => 'users#new'
+  # post '/users' => 'users#create'
 
-  get '/login' => 'sessions#new'
-  post '/login' => 'sessions#create'
-  get '/logout' => 'sessions#destroy'
+  # get '/login' => 'sessions#new'
+  # post '/login' => 'sessions#create'
+  # get '/logout' => 'sessions#destroy'
 
   resources :users, only: [:get, :post] do
     get '/results', to: 'results#index'
     post '/results', to: 'results#create'
 
-    member do
-      get :confirm_email
-      get :delete_email
-    end
+    # member do
+    #   get :confirm_email
+    #   get :delete_email
+    # end
   end
 
 

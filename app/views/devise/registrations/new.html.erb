@@ -1,0 +1,78 @@
+
+<% provide(:title, "Signup") %>
+
+<script>
+function loadingOn(){
+  document.getElementById("commit").style.display="none";
+  document.getElementById("loading").style.display="inline";
+}
+</script>
+
+<div class="info_header">
+
+    <div class="container">
+
+    </div>
+    <!-- /.container -->
+
+</div>
+<!-- /.banner -->
+
+<div class="jumbotron text-center">
+  <h1>Signup</h1>
+</div>
+
+<div class="container text-center form-horizontal">
+  <% if flash[:validity]==false %>
+    <div class="alert alert-danger col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"><div class="fa fa-exclamation-triangle fa-lg"></div> The Informations entered are not valid.</div>
+  <% end %>
+
+  <%= form_for(resource, as: resource_name, url: signup_path) do |f| %>
+    <%= devise_error_messages! %>
+
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_username">Username</label>
+      <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+      <% if flash[:username] %>
+        <div class="alert alert-danger"><%= flash[:username] %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_email">Email</label>
+      <%= f.text_field :email, autofocus: false, class: 'form-control' %>
+      <% if flash[:email] %>
+        <div class="alert alert-danger"><%= flash[:email] %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_password">Password</label>
+      <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+      <% if flash[:password] %>
+        <div class="alert alert-danger"><%= flash[:password] %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
+      <label for ="user_password_confirmation">Password Confirmation</label>
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+      <% if flash[:password_confirm] %>
+        <div class="alert alert-danger"><%= flash[:password_confirm] %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="loading" style="display:none;">
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+  </div>
+  <input onclick="loadingOn()" id="commit" class="btn btn-success" type="submit" name="commit" value="Submit">
+  <% end %>
+
+  <br />
+</div>
