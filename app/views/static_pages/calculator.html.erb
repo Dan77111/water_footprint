@@ -92,7 +92,7 @@
 var data = {}
 var tot=0;
 var i=-1;
-//var img_index=-1;
+
 var img_ii = [
   <% x=0; a=[] %>
   <% items.values.each do |section| %>
@@ -223,7 +223,24 @@ function save_data(){
   }
   document.getElementById("tot").innerHTML = withDot(tot/7);
 }
+
+jQuery(document).ready(function()
+{
+        var d = new Date();
+        d = d.getTime();
+        if (jQuery('#reloadValue').val().length == 0)
+        {
+                jQuery('#reloadValue').val(d);
+                jQuery('body').show();
+        }
+        else
+        {
+                jQuery('#reloadValue').val('');
+                location.reload();
+        }
+});
 </script>
+<input id="reloadValue" type="hidden" name="reloadValue" value="" />
 
 <div class="info_header">
     <div class="container"></div>
@@ -241,7 +258,7 @@ function save_data(){
   <div id="box-1" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3 waves-test-start">
     <div class="logo-test-start col-lg-4 col-lg-offset-4"></div>
     <p style="padding-top:240px; color:#007acc;">
-      Do the test now and compare your result with global average.
+      Do the test now and compare your result with USA average.
     </p>
 
 
