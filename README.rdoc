@@ -1,9 +1,5 @@
 goals:
-  3) test finished -> log in here to save your result
-  4) statistic page of user
-  6) give some advice to user after test
-  7) images in calculator
-  8) Info page
-  9) section with description and images
-  10) graphics in statistic page
-  11) Paasword confirmation div alert
+  1) bug back calculator
+  2) error messages Signup
+  3) redirect history after test
+  4) 

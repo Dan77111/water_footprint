@@ -2,11 +2,11 @@ Rails.application.routes.draw do
   devise_for :users, :skip => [:sessions, :registrations]
   as :user do
     get 'login' => 'devise/sessions#new', :as => :login
-    post 'login' => 'devise/sessions#create'
+    post 'login' => 'sessions#create'
     delete 'logout' => 'devise/sessions#destroy', :as => :logout
 
     get 'signup' => 'devise/registrations#new', :as => :signup
-    post 'signup' => 'devise/registrations#create'
+    post 'signup' => 'registrations#create'
   end
 
   root 'static_pages#home'
