@@ -55,16 +55,16 @@
             <li class="<%= "active" if current_page? calculator_path %>">
               <a href="<%= calculator_path %>">Calculator</a>
             </li>
-            <% if current_user %>
-            <li class="<%= "active" if current_page? user_results_path(current_user.id) %>">
-              <a href="<%= user_results_path(current_user.id) %>">History</a>
+            <% if signed_in? %>
+            <li class="<%= "active" if current_page? user_results_path(current_user['id']) %>">
+              <a href="<%= user_results_path(current_user['id']) %>">History</a>
             </li>
             <% end %>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-          <% if current_user %>
-            <li><a href="<%= user_results_path(current_user.id) %>"><span><span class="fa fa-user"></span> <%= current_user.name %></span></a></li>
+          <% if signed_in? %>
+            <li><a href="<%= user_results_path(current_user['id']) %>"><span><span class="fa fa-user"></span> <%= current_user['name'] %></span></a></li>
             <li><%= link_to "Logout", logout_path, :method => :delete, style:"color:#cc0000;" %></li>
           <% else %>
             <li class="<%= "active" if current_page?(signup_path) %>"><a href="<%= signup_path %>">Signup</a></li>
@@ -99,7 +99,7 @@
                         </li>
 						            <li class="footer-menu-divider">⋅</li>
 
-                        <% if current_user %>
+                        <% if signed_in? %>
                         <li>
                           <%= link_to "Logout", logout_path %>
                         </li>
