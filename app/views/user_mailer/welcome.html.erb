@@ -13,7 +13,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" height="90" width="100%" style="background-color:#fff;background-image:none;background-repeat:repeat;background-position:top left">
                       <tbody><tr>
                         <td align="center" valign="middle">
-                          <a href="<%= root_path %>" target="_blank">
+                          <a href="<%= root_url %>" target="_blank">
                             <img src="<%= 'https://github.com/DavideLusuardi/water_footprint/blob/emailConfirm/app/assets/images/email_confirm_logo.png?raw=true' %>" width="280" alt="WFC" class="CToWUd">
                           </a>
                         </td>
@@ -42,19 +42,19 @@
                       <tbody><tr>
                         <td align="center" valign="middle">
                           <div><h3 color="#0033cc">
-                            Hi <%= @user.username %>, <br />
-                			Thanks for registering! To confirm your registration click the button below
+                            Hi <%= @user.name %>, <br />
+                			Thanks for registering! Welcome to our website.
                 			</h3>
                            <div>
-                            <a href="<%= confirm_email_user_url(@user.confirm_token) %>" style="border-radius:20px; background-color:#428bca;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
-                              Confirm email
+                            <a href="<%= root_url %>" style="border-radius:20px; background-color:#428bca;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:20px;line-height:40px;margin-bottom:10px;text-align:center;text-decoration:none;width:200px" target="_blank">
+                              Go to website!
                             </a>
                 			<br/>
                             <br>
-                            <small style="color:#999;font-size:14px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px">Or click this link to delete it if you didn't create it.
+                            <small style="color:#999;font-size:14px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px">In collaboration with:
                 			<br/>
-                			 <a href="<%= delete_email_user_url(@user.delete_token) %>" style="color:#999" target="_blank">
-                                Delete Your Account
+                			 <a href="http://www.fbk.eu" style="color:#999" target="_blank">
+                                FBK
                               </a>
                             </small>
                           </div>

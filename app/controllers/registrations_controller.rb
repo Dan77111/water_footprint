@@ -12,6 +12,8 @@ class RegistrationsController < Devise::RegistrationsController
       flash[:validity] = true
       flash[:confirm] = "You successfully signed up!"
     end
+
+    UserMailer.welcome(@user).deliver_now
   end
 
 end

@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   def welcome(user)
     @user = user
-    mail(:to => "#{user.username} <#{user.email}>", :subject => "Welcome to WFC")
+    mail(:to => "#{user.name} <#{user.email}>", :subject => "Welcome to WFC")
   end
 
 end
