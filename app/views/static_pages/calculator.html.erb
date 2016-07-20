@@ -1,126 +1,12 @@
 <% provide(:title, "Calculator") %>
 
-<%
-  items = {
-    carbohydrates1: {
-###-----------errori value
-      pasta:  { value:1848, question:"How many dishes of pasta did you eat this week? (100g/dish)",
-                slider:{ id:"pasta", max:14 }
-      },
-      bread:  { value:40*7, question:"How many slices of bread did you eat normally every day this week? (30g/slice)",
-                slider:{ id:"bread", max:16 },
-                description:"Wheat consumes about 790.000 billion litres of water annually, which constitutes 12% of the global water use for crop poduction."
-      }
-    },
-    carbohydrates2: {
-      rice: { value:3400.0/1000*90, question:"How many dishes of rice did you eat this week? (90g/dish)",
-              slider:{ id:"rice", max:10 },
-              description:"One kilogram of rice harvested from the field produce 0.67 kg of milled rice."
-      },
-      potatoes: { value:287.0/1000*170, question:"How many potatoes did you eat this week?",
-              slider:{ id:"potatoes", max:14 },
-              img: "section_carbohydrates.png"
-      }
-    },
-    meat: {
-      beef: { value:4500, question:"How many beef steaks did you eat this week? (300g/steak)",
-              slider:{ id:"beef", max:8 }
-              #description:"It takes in average three years to produce 200 kg of beef. During that time, feeding the animals requires about 15300 litres of water."
-      },
-      pork: { value:1440, question:"How many pork steaks did you eat this week? (300g/steak)",
-              slider:{ id:"pork", max:8 },
-      },
-      chicken: { value:1170, question:"How many portions of chicken did you eat this week? (300g/beastfilet)",
-              slider:{ id:"chicken", max:10 },
-              description:"These quantities are calculated based on the average water cost of feeding the animal and of servicing.",
-              img: "section_meat.png"
-      }
-    },
-    vegetables: {
-      vegetables: { value:(385.0/1000)*150, question:"How many portions of vegetables did you eat this week? (150g/portion)",
-              slider:{ id:"vegetables", max:20 },
-              description:"Vegetables' water consumption is far less than meat's one. So eating lots of vegetables reduces your water footprint."
-      }
-    },
-    proteins: {
-      milk: { value:1000/4, question:"How many cups of milk did you drink this week? (250ml/cup)",
-              slider:{ id:"milk", max:14 }
-      },
-      eggs: { value:196, question:"How many eggs did you eat this week?",
-              slider:{ id:"eggs", max:10 }
-      },
-      cheese: { value:5, question:"How many grams of cheese did you eat this week?",
-              slider:{ id:"cheese", max:1000 },
-              img: "section_proteins.png"
-      }
-    },
-    drinks1: {
-      wine: { value:720/2, question:"How many bottles of wine did you drink the last two weeks? (750ml/bottle)",
-              slider:{ id:"wine", max:8 }
-      },
-      beer: { value:150/2, question:"How many bottles of beer did you drink the last two weeks? (500ml/bottle)",
-              slider:{ id:"beer", max:16 }
-      }
-    },
-    drinks2: {
-      tea: { value:30, question:"How many cups of tea did you drink this week? (250ml/cup)",
-              slider:{ id:"tea", max:16 }
-      },
-      coffee: { value:140, question:"How many cups of coffee did you drink this week? (150ml/cup)",
-              slider:{ id:"coffee", max:30 }
-      },
-      sugar: { value:1781.0/1000*44, question:"How many teaspoons of sugar did you use this week? (44g/teaspoon)",
-              slider:{ id:"sugar", max:50 },
-              img: "section_drinks.png"
-      }
-    },
-    clothes: {
-      shoes: { value:8000/8, question:"How many pairs of leather shoes did you buy the last two months?",
-              slider:{ id:"shoes", max:6 }
-      },
-      shirts: { value:2900/4, question:"How many t-shirts or shirts did you buy this month?",
-              slider:{ id:"shirts", max:6 }
-      },
-      jeans: { value:8000/4, question:"How many pairs of jeans did you buy this month?",
-              slider:{ id:"jeans", max:4 }
-      }
-    }
-  }
-%>
-
 <script>
-var data = {}
-var tot=0;
-var i=-1;
-
-var img_ii = [
-  <% x=0; a=[] %>
-  <% items.values.each do |section| %>
-    <% if section.values.last[:img] %>
-      <% x+=1 %>
-      <% a.push(x) %>
-    <% end %>
-    <% x+=1 %>
-  <% end %>
-  <%= a.join(", ") %>
-];
-
-var numItems = <%= x %>;
+var index_box=-2;
 var lock=false;
-
-function withDot(n){
-  var n_s = parseInt(n, 10).toString();
-  var n_tot = "";
-  for (j=n_s.length-3; j>0; j-=3){
-    n_tot = "." + n_s.slice(j, j+3) + n_tot;
-  }
-  n_tot = n_s.slice(0, j+3) + n_tot;
-  return n_tot;
-}
 
 $(document).ready(
   function(){
-    <% items.values.each do |section| %>
+    <% @items.values.each do |section| %>
       <% section.values.each do |item| %>
         $("#<%= item[:slider][:id] %>").slider({tooltip:'always'});
       <% end %>
@@ -128,17 +14,17 @@ $(document).ready(
   }
 );
 
+/* fix bug slider tooltip moved to the right */
 function relayout(){
-  switch(i){
-  <% j=0
-      items.values.each do |section| %>
+  switch(index_box){
+  <% j=0 %>
+  <% @items.values.each do |section| %>
     case <%= j %>:
     <% section.values.each do |item| %>
       $("#<%= item[:slider][:id] %>").slider("relayout");
     <% end %>
     break;
-  <% j+=1 %>
-  <% j+=1 if section.values.last[:img] %>
+  <% j+=2 %>
   <% end %>
   }
 }
@@ -147,83 +33,94 @@ function buttonsOff(){
   document.getElementById("buttons").style.display = "none";
 }
 
+function increase_index_box(){
+  index_box += 1;
+  /* if image box doesn't exist -> skip it */
+  if (document.getElementById('box'+index_box) == null){
+    index_box += 1;
+  }
+}
+
 function next(){
-  if (lock==true) {return;}
+  if (lock==true) {return;} /* fix multiclick on next button (multiple fadeIn at the same time) */
   lock=true;
 
   $("#buttons").fadeOut();
-  $("#box"+i).fadeOut(400,"swing",
+  $("#box"+index_box).fadeOut(400,"swing",
+                  // call-back function called after fadeOut
                   function(){
-                    i += 1;
+                    increase_index_box();
 
-                    save_data();
-
-                    if (i==1) { // test iniziato
+                    if (index_box==2) { // I'm going to the second box so I unlock previous button
                       $('#btn_previous').removeClass('disabled');
                     }
-                    if (i==numItems) { // test finito
-                      buttonsOff();
 
-                      <% if current_user %>
-                      $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
-                      <% else %>
-                      $.post("/temp?static_page[result]="+tot)
-                      <% end %>
+                    if (index_box == <%= @items.values.count*2 %>) { // test finished, I'm going to result box
+                      buttonsOff();
+                      send_result();
+
                     } else {
                       $("#buttons").fadeIn();
                     }
 
-                    $("#box"+i).fadeIn(400, "swing", function(){ // box finale
-                      lock = false;
+                    $("#box"+index_box).fadeIn(400, "swing", function(){
+                      lock = false; // allow call of next and previous functions
                     });
 
-                    relayout();
+                    relayout(); // fix slider tooltip bug
                   });
+}
+
+function decrease_index_box(){
+  index_box -= 1;
+  /* if image box doesn't exist -> skip it */
+  if (document.getElementById('box'+index_box) == null){
+    index_box -= 1;
+  }
 }
 
 function previous(){
   if (lock==true) {return;}
   lock = true;
 
-  $("#box"+i).fadeOut();
+  $("#box"+index_box).fadeOut();
   $("#buttons").fadeOut(400,"swing",
                 function(){
-                  i -= 1;
-                  save_data();
+                  decrease_index_box();
 
-                  if (i==0) { // primo box
+                  if (index_box==0) { // I'm going to the first box so I disable previous button
                     $('#btn_previous').addClass('disabled');
                   }
 
                   $("#buttons").fadeIn();
-                  $("#box"+i).fadeIn(400, "swing", function(){
+                  $("#box"+index_box).fadeIn(400, "swing", function(){
                     lock = false;
                   });
                 });
 };
 
-function save_data(){
-  data = {};
-  switch(i)
-  {
-    <% i = x %>
-    <% items.values.reverse.each do |section| %>
-    <% i-=1 if section.values.last[:img] %>
-    case <%= i %>:
-      <% section.each do |item, values| %>
+/* calculate, show and save result */
+function send_result(){
+  var tot = 0;
+  <% @items.values.each do |section| %>
+    <% section.each do |item, values| %>
       <% id = values[:slider][:id] %>
-        data["<%= id %>"] = document.getElementById("<%= id %>").value*<%= values[:value] %>;
-      <% end %>
-    <% i -= 1 %>
+      tot += document.getElementById("<%= id %>").value * <%= values[:value] %>; // multiply slider value by coefficient
     <% end %>
-  }
-  tot = 0
-  for (var key in data){
-    tot += data[key];
-  }
-  document.getElementById("tot").innerHTML = withDot(tot/7);
+  <% end %>
+
+  document.getElementById("tot").innerHTML = Math.round(tot/7); // show result to user
+
+  <% if current_user %>
+    /* if I'm logged in -> send result to server that it saves on database */
+    $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
+  <% else %>
+    /* else -> send data to controller that it saves in cookies */
+    $.post("/temp?static_page[result]="+tot)
+  <% end %>
 }
 
+/* fix browser back button cache */
 jQuery(document).ready(function()
 {
         var d = new Date();
@@ -240,13 +137,12 @@ jQuery(document).ready(function()
         }
 });
 </script>
-<input id="reloadValue" type="hidden" name="reloadValue" value="" />
+<input id="reloadValue" type="hidden" name="reloadValue" value="" /> <!-- hidden element to save time to reload -->
 
-<div class="info_header">
-    <div class="container"></div>
-    <!-- /.container -->
+<div class="header_image">
+  <!-- -->
+  <div class="container"></div>
 </div>
-<!-- /.banner -->
 
 <div style="min-height:10px; background-color:#eee;">
 </div>
@@ -255,12 +151,11 @@ jQuery(document).ready(function()
 <div class="container text-center">
 
   <!-- starter box -->
-  <div id="box-1" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3 waves-test-start">
+  <div id="box-2" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3 waves-test-start">
     <div class="logo-test-start col-lg-4 col-lg-offset-4"></div>
     <p style="padding-top:240px; color:#007acc;">
       Do the test now and compare your result with USA average.
     </p>
-
 
     <div class="alert alert-info col-xs-10 col-xs-offset-1">
       <ul class="fa-ul">
@@ -277,13 +172,11 @@ jQuery(document).ready(function()
   </div>
 
   <% i = 0 %>
-  <% items.each do |section_name, section| %>
+  <% @items.values.each do |section| %>
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
     <div>
       <% section.each do |item, values| %>
-
       <h3 class="lead"><%= values[:question] %></h3>
-
       <br />
       <% slider = values[:slider]
          max = slider[:max] %>
@@ -307,17 +200,17 @@ jQuery(document).ready(function()
           </ul>
         </div>
         <% end %>
+
       <% end %>
     </div>
   </div>
-  <% i += 1 %>
 
-  <% if section.values.last[:img] %>
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
-    <%= image_tag(section.values.last[:img], style:"max-width:100%; max-height:100%;") %>
+  <% if @images[i/2] %>
+  <div id="box<%= i+1 %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
+    <%= image_tag(@images[i/2], style:"max-width:100%; max-height:100%;") %>
   </div>
-  <% i+=1 %>
   <% end %>
+  <% i += 2 %>
 
   <% end %>
 
@@ -329,7 +222,7 @@ jQuery(document).ready(function()
   </div>
 
 
-  <!-- test finished -->
+  <!-- result box -->
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
     <h3>Test Finished</h3>
     <p>Your water footprint was <span id="tot"></span> l/day during your last week.<br />

@@ -126,11 +126,11 @@ font-size: 14px;
     background-size: cover;
 }
 
-.info_header {
+.header_image {
     padding: 200px 0;
     color: #f8f8f8;
     text-align: center;
-    background: url(info_header.jpg) no-repeat center center;
+    background: url(header_image.jpg) no-repeat center center;
     background-size: cover;
 }
 
