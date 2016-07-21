@@ -52,6 +52,8 @@ group :development do
   gem 'spring'
 end
 
+gem 'puma'
+
 #group :production do
 #  gem 'pg'
 #end
