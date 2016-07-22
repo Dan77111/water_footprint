@@ -1,95 +1,96 @@
 <% provide(:title, "Home") %>
 
-<% if flash[:confirm] %>
+<!-- show modal if redirected from successful sign up or login -->
+<% if flash[:success] %>
 <script>
 $(document).ready(
   function(){
-    $("#confirmationModal").modal();
+    $("#successModal").modal();
   }
 );
 </script>
 <% end %>
 
-<% if flash[:confirm] %>
-<div id="confirmationModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Success</h4>
+  <!-- successful signup or login modal -->
+  <% if flash[:success] %>
+  <div id="successModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Success</h4>
+        </div>
+        <div class="modal-body">
+          <p><%= flash[:success] %></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
+        </div>
       </div>
-      <div class="modal-body">
-        <p><%= flash[:confirm] %></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Okay</button>
-      </div>
-    </div>
 
+    </div>
   </div>
-</div>
-<% end %>
+  <% end %>
 
 <!-- Header -->
-    <!-- <a name="about"></a> -->
-    <div class="intro-header">
-        <div class="container">
+  <div class="intro-header">
+    <div class="container">
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h1>Water Footprint Calculator</h1>
-                        <h3>Home Page</h3>
-                        <hr class="intro-divider">
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                              <a href="<%= calculator_path %>" class="btn btn-danger btn-lg btn-xlg" style="border-radius: 40px;"><span class="network-name"><strong>Do the Test Now</strong></span></a>
-                            </li>
-                        </ul>
-                        <ul class="list-inline intro-social-buttons">
-                            <li>
-                                <a href="http://www.fbk.eu"  target=”_blank” class="btn btn-default btn-lg" style="border-radius: 40px;"><%= image_tag("fbk_logo.png", height:"20") %><span class="network-name">  FBK</span></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.intro-header -->
-
-    <!-- Page Content -->
-
-	<!--<a name="services"></a>-->
-    <div class="content-section-a">
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-sm-6">
-                    <hr class="section-heading-spacer">
-                    <div class="clearfix"></div>
-                    <h2 class="section-heading">What is the Water Footprint?</h2>
-                    <p class="lead">Water Footprint is the measurement of water consumption that includes both direct and indirect usage by a consumer or a producer.</p>
-                </div>
-                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <%= image_tag("content1.png", class:"img-responsive") %>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="intro-message">
+                  <h1>Water Footprint Calculator</h1>
+                  <h3>Home Page</h3>
+                  <hr class="intro-divider">
+                  <ul class="list-inline intro-social-buttons">
+                      <li>
+                        <a href="<%= calculator_path %>" class="btn btn-danger btn-lg btn-xlg" style="border-radius: 40px;">
+                          <span class="network-name"><strong>Do the Test Now</strong></span>
+                        </a>
+                      </li>
+                  </ul>
+                  <ul class="list-inline intro-social-buttons">
+                      <li>
+                        <a href="http://www.fbk.eu"  target=”_blank” class="btn btn-default btn-lg" style="border-radius: 40px;">
+                          <%= image_tag("fbk_logo.png", height:"20") %><span class="network-name">  FBK</span>
+                        </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
 
     </div>
-    <!-- /.content-section-a -->
+      <!-- /.container -->
+  </div>
+  <!-- /.intro-header -->
+
+  <!-- Page Content -->
+  <div class="content-section-a">
+
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-5 col-sm-6">
+                  <hr class="section-heading-spacer">
+                  <div class="clearfix"></div>
+                  <h2 class="section-heading">What is the Water Footprint?</h2>
+                  <p class="lead">Water Footprint is the measurement of water consumption that includes both direct and indirect usage by a consumer or a producer.</p>
+              </div>
+              <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                  <%= image_tag("content1.png", class:"img-responsive") %>
+              </div>
+          </div>
+
+      </div>
+      <!-- /.container -->
+
+  </div>
+  <!-- /.content-section-a -->
 
     <div class="content-section-b">
 
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
@@ -103,7 +104,6 @@ $(document).ready(
                     <%= image_tag("content2.png", class:"img-responsive") %>
                 </div>
             </div>
-
         </div>
         <!-- /.container -->
 
@@ -113,7 +113,6 @@ $(document).ready(
     <div class="content-section-a">
 
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
@@ -125,20 +124,18 @@ $(document).ready(
                     <%= image_tag("content3.png", class:"img-responsive") %>
                 </div>
             </div>
-
         </div>
         <!-- /.container -->
 
     </div>
     <!-- /.content-section-a -->
 
-
-
-	<!--<a name="contact"></a>-->
     <div class="banner">
 
         <div class="container">
-          <a href="<%= calculator_path %>" class="btn btn-danger btn-lg btn-xlg" style="border-radius: 40px;"><span class="network-name"><strong>Do the Test Now</strong></span></a>
+          <a href="<%= calculator_path %>" class="btn btn-danger btn-lg btn-xlg" style="border-radius: 40px;">
+            <span class="network-name"><strong>Do the Test Now</strong></span>
+          </a>
         </div>
         <!-- /.container -->
 

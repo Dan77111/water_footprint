@@ -6,6 +6,7 @@ var lock=false;
 
 $(document).ready(
   function(){
+    /* slider initialization */
     <% @items.values.each do |section| %>
       <% section.values.each do |item| %>
         $("#<%= item[:slider][:id] %>").slider({tooltip:'always'});
@@ -13,6 +14,23 @@ $(document).ready(
     <% end %>
   }
 );
+
+/* fix browser back button cache */
+jQuery(document).ready(function()
+{
+        var d = new Date();
+        d = d.getTime();
+        if (jQuery('#reloadValue').val().length == 0)
+        {
+                jQuery('#reloadValue').val(d);
+                jQuery('body').show();
+        }
+        else
+        {
+                jQuery('#reloadValue').val('');
+                location.reload();
+        }
+});
 
 /* fix bug slider tooltip moved to the right */
 function relayout(){
@@ -29,10 +47,12 @@ function relayout(){
   }
 }
 
+/* turn off button div at the end of the test */
 function buttonsOff(){
   document.getElementById("buttons").style.display = "none";
 }
 
+/* manage index of box increasing in relation to the presence of images */
 function increase_index_box(){
   index_box += 1;
   /* if image box doesn't exist -> skip it */
@@ -41,6 +61,7 @@ function increase_index_box(){
   }
 }
 
+/* event on next button click */
 function next(){
   if (lock==true) {return;} /* fix multiclick on next button (multiple fadeIn at the same time) */
   lock=true;
@@ -79,6 +100,7 @@ function decrease_index_box(){
   }
 }
 
+/* event on previous button click */
 function previous(){
   if (lock==true) {return;}
   lock = true;
@@ -116,31 +138,14 @@ function send_result(){
     $.post("/users/<%= current_user.id %>/results?result[score]="+tot+"&result[user_id]="+<%= current_user.id %>)
   <% else %>
     /* else -> send data to controller that it saves in cookies */
-    $.post("/temp?static_page[result]="+tot)
+    $.post("/save_result_in_cookies?static_page[result]="+tot)
   <% end %>
 }
-
-/* fix browser back button cache */
-jQuery(document).ready(function()
-{
-        var d = new Date();
-        d = d.getTime();
-        if (jQuery('#reloadValue').val().length == 0)
-        {
-                jQuery('#reloadValue').val(d);
-                jQuery('body').show();
-        }
-        else
-        {
-                jQuery('#reloadValue').val('');
-                location.reload();
-        }
-});
 </script>
-<input id="reloadValue" type="hidden" name="reloadValue" value="" /> <!-- hidden element to save time to reload -->
+
+<input id="reloadValue" type="hidden" name="reloadValue" value="" /> <!-- hidden element save that page was reloaded -->
 
 <div class="header_image">
-  <!-- -->
   <div class="container"></div>
 </div>
 
@@ -152,7 +157,6 @@ jQuery(document).ready(function()
 
   <!-- starter box -->
   <div id="box-2" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3 waves-test-start">
-    <div class="logo-test-start col-lg-4 col-lg-offset-4"></div>
     <p style="padding-top:240px; color:#007acc;">
       Do the test now and compare your result with USA average.
     </p>
@@ -171,9 +175,10 @@ jQuery(document).ready(function()
     </div>
   </div>
 
+  <!-- question boxes -->
   <% i = 0 %>
   <% @items.values.each do |section| %>
-  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
+  <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none; border-radius: 30px;">
     <div>
       <% section.each do |item, values| %>
       <h3 class="lead"><%= values[:question] %></h3>
@@ -205,8 +210,9 @@ jQuery(document).ready(function()
     </div>
   </div>
 
+  <!-- image boxes -->
   <% if @images[i/2] %>
-  <div id="box<%= i+1 %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
+  <div id="box<%= i+1 %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none; border-radius: 30px;">
     <%= image_tag(@images[i/2], style:"max-width:100%; max-height:100%;") %>
   </div>
   <% end %>
@@ -214,13 +220,14 @@ jQuery(document).ready(function()
 
   <% end %>
 
-  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:#eee; display:none;">
+  <!-- buttons div -->
+  <div id="buttons" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="display:none;">
+    <br />
     <br />
     <button id="btn_previous" onclick="previous();" type="button" class="btn btn-primary disabled">Previous</button>
     <button id="btn_next" onclick="next();" type="button" class="btn btn-primary">Next</button>
     <p> <br /> </p> <!-- space after buttons -->
   </div>
-
 
   <!-- result box -->
   <div id="box<%= i %>" class="col-xs-12 col-sm-6 col-lg-6 col-sm-offset-3 col-lg-offset-3" style="background-color:lightblue; display:none;">
@@ -237,6 +244,7 @@ jQuery(document).ready(function()
         Signup or login to save your result
         <br />
         <br />
+        <!-- signup and login buttons at the end of the test to save the last result -->        
         <a href="<%= signup_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Signup</button></a>
         <a href="<%= login_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Login</button></a>
       <% end %>

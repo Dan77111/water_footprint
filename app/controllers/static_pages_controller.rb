@@ -7,7 +7,10 @@ class StaticPagesController < ApplicationController
   end
 
   def calculator
+
+    # images array
     @images = [nil,"section_carbohydrates.png","section_meat.png",nil,"section_proteins.png",nil,"section_drinks.png",nil]
+    # calculator hash with questions, items' coefficients and slider options
     @items = {
       carbohydrates1: {
         pasta:  { value:1848, question:"How many dishes of pasta did you eat this week? (100g/dish)",
@@ -91,9 +94,11 @@ class StaticPagesController < ApplicationController
 
   end
 
-  def temp_result
+  # save test result in cookies, waiting for login or signup
+  def save_result_in_cookies
     result = params.require(:static_page)[:result]
 
+    # check result exists
     if result
       cookies[:result] = result
     end

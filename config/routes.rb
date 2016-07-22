@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+
   devise_for :users, :skip => [:sessions, :registrations]
+  # redefined uri for devise
   as :user do
     get 'login' => 'devise/sessions#new', :as => :login
     post 'login' => 'sessions#create'
@@ -13,26 +15,13 @@ Rails.application.routes.draw do
 
   get '/info' => 'static_pages#info'
   get '/calculator' => 'static_pages#calculator'
-  post '/temp' => 'static_pages#temp_result'
+  post '/save_result_in_cookies' => 'static_pages#save_result_in_cookies'
 
-  # get '/signup' => 'users#new'
-  # post '/users' => 'users#create'
-
-  # get '/login' => 'sessions#new'
-  # post '/login' => 'sessions#create'
-  # get '/logout' => 'sessions#destroy'
-
+  # results are nested in users
   resources :users, only: [:get, :post] do
     get '/results', to: 'results#index'
     post '/results', to: 'results#create'
-
-    # member do
-    #   get :confirm_email
-    #   get :delete_email
-    # end
   end
-
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

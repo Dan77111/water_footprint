@@ -2,6 +2,7 @@
 <% provide(:title, "Signup") %>
 
 <script>
+// on click submit, disable it and show animated loading
 function loadingOn(){
   document.getElementById("commit").style.display="none";
   document.getElementById("loading").style.display="inline";
@@ -9,12 +10,9 @@ function loadingOn(){
 </script>
 
 <div class="header_image">
-
     <div class="container">
-
     </div>
     <!-- /.container -->
-
 </div>
 <!-- /.banner -->
 
@@ -23,19 +21,31 @@ function loadingOn(){
 </div>
 
 <div class="container text-center form-horizontal">
-  <% if flash[:validity]==false %>
-    <div class="alert alert-danger col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"><div class="fa fa-exclamation-triangle fa-lg"></div> The Informations entered are not valid.</div>
+  <!-- if signup invalid, show error messages -->
+  <% if !@user.errors.messages.empty? %>
+    <% mess = @user.errors.messages
+        name_error = mess[:name][0] if mess[:name]
+        email_error = mess[:email][0] if mess[:email]
+        password_error = mess[:password][0] if mess[:password]
+
+        if !(mess[:name] || mess[:email] || mess[:password])
+          password_confirm_error = "Password and Password Confirmation do not match."
+        end
+    %>
+    <div class="alert alert-danger col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+      <div class="fa fa-exclamation-triangle fa-lg"></div>
+      The Informations entered are not valid.
+    </div>
   <% end %>
 
   <%= form_for(resource, as: resource_name, url: signup_path) do |f| %>
-    <%= devise_error_messages! %>
 
   <div class="form-group">
     <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
       <label for ="user_username">Username</label>
       <%= f.text_field :name, autofocus: true, class: 'form-control' %>
-      <% if flash[:username] %>
-        <div class="alert alert-danger"><%= flash[:username] %></div>
+      <% if name_error %>
+        <div class="alert alert-danger"><%= name_error %></div>
       <% end %>
     </div>
   </div>
@@ -43,8 +53,8 @@ function loadingOn(){
     <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
       <label for ="user_email">Email</label>
       <%= f.text_field :email, autofocus: false, class: 'form-control' %>
-      <% if flash[:email] %>
-        <div class="alert alert-danger"><%= flash[:email] %></div>
+      <% if email_error %>
+        <div class="alert alert-danger"><%= email_error %></div>
       <% end %>
     </div>
   </div>
@@ -52,8 +62,8 @@ function loadingOn(){
     <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
       <label for ="user_password">Password</label>
       <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
-      <% if flash[:password] %>
-        <div class="alert alert-danger"><%= flash[:password] %></div>
+      <% if password_error %>
+        <div class="alert alert-danger"><%= password_error %></div>
       <% end %>
     </div>
   </div>
@@ -61,8 +71,8 @@ function loadingOn(){
     <div class="col-xs-10 col-sm-6 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-lg-offset-4 text-left">
       <label for ="user_password_confirmation">Password Confirmation</label>
       <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
-      <% if flash[:password_confirm] %>
-        <div class="alert alert-danger"><%= flash[:password_confirm] %></div>
+      <% if password_confirm_error %>
+        <div class="alert alert-danger"><%= password_confirm_error %></div>
       <% end %>
     </div>
   </div>

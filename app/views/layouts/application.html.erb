@@ -8,6 +8,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
 
+    <!-- to load script in specific pages -->
     <%= yield(:script) %>
 
     <meta charset="utf-8">
@@ -27,7 +28,8 @@
     <![endif]-->
 
     <script type="text/javascript">
-      window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"dark-bottom"};
+      /* cookie consent message, source from silktide.com */
+      window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website.","dismiss":"OK","learnMore":"More info","link":"","theme":"dark-bottom"};
     </script>
 
 </head>
@@ -113,7 +115,7 @@
                         </li>
                         <% end %>
                     </ul>
-                    <p class="copyright text-muted small">Copyright © Your Company 2016. All Rights Reserved</p>
+                    <p class="copyright text-muted small">Copyright © FBK 2016. All Rights Reserved</p>
                 </div>
             </div>
         </div>

@@ -1,10 +1,15 @@
 class ResultsController < ApplicationController
   before_action :set_result, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  
-  # GET /results
-  # GET /results.json
+
+  # calculate some stats
   def index
+    # if user is not logged in or he tries to see other user result
+    if !signed_in? || current_user.id != params[:user_id].to_i
+      redirect_to root_path
+      return
+    end
+
     @results = User.find(params[:user_id]).results
 
     @average = 0
@@ -18,8 +23,7 @@ class ResultsController < ApplicationController
     @average /= @results.count unless @results.count == 0
   end
 
-  # POST /results
-  # POST /results.json
+  # add new result
   def create
 
     @result = Result.new(result_params)

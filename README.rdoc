@@ -1,5 +1,4 @@
 goals:
-  1) bug back calculator # fixed
   2) error messages Signup
   3) redirect history after test
-  4) mailer to user (after time)
+  4) mailer to user (after some time)

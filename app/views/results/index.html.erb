@@ -1,14 +1,12 @@
+<!-- w3.css is needed for cards -->
 <% provide(:script, stylesheet_link_tag("w3.css")) %>
 
 <% provide(:title, "History") %>
 
 <div class="header_image">
-
     <div class="container">
-
     </div>
     <!-- /.container -->
-
 </div>
 <!-- /.banner -->
 
@@ -77,7 +75,7 @@
         <div class="w3-container">
           <br />
           <img src="<%= image_path("fa-bar-chart.png") %>" alt="Graph" class="w3-left w3-circle w3-margin-right" style="width:60px">
-          <p>Your average is:<br /><%= @average %></p> <!-- toDot() -->
+          <p>Your average is:<br /><%= @average %></p>
         </div>
 
       </div>
