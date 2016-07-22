@@ -102,7 +102,7 @@ function decrease_index_box(){
 
 /* event on previous button click */
 function previous(){
-  if (lock==true) {return;}
+  if (lock==true || index_box==0) {return;}
   lock = true;
 
   $("#box"+index_box).fadeOut();
@@ -244,7 +244,7 @@ function send_result(){
         Signup or login to save your result
         <br />
         <br />
-        <!-- signup and login buttons at the end of the test to save the last result -->        
+        <!-- signup and login buttons at the end of the test to save the last result -->
         <a href="<%= signup_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Signup</button></a>
         <a href="<%= login_path %>"><button type="button" class="btn btn-primary" style="border-radius:10px;">Login</button></a>
       <% end %>
